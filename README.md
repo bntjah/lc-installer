@@ -5,7 +5,7 @@ sh installer.sh
 Notes: It should ask you the first time wich ETH you want it to configure to.
 If you want to reconfigure this at a later state delete the file: /usr/local/lancache/config/interface_used
 
-Script is licensed under GPL-3.0
+Script itself is licensed under GPL-3.0
 
 Copyright (C) 2016 Geoffrey 'bn_'
 echo 
