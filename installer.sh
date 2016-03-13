@@ -343,8 +343,7 @@ if [ -f "/etc/dhcp/dhclient.conf" ]; then
 	fi
 fi
 
-## Clean up temp folder
-# sudo rm -rf $lc_base_folder/temp
+## Clean up temp foldersudo rm -rf $lc_base_folder/temp
 fi
 
 exit 0
