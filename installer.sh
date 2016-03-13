@@ -240,6 +240,8 @@ fi
 
 ## Preparing Bind Configs
 if [ ! -f "/etc/bind/named.conf.local.lan-cache" ]; then
+	mkdir -p $lc_base_folder/temp/bind
+	cp $lc_base_folder/data/lancache/bind/db.lancache.* $lc_base_folder/temp/bind
 	sed -i 's|lc-hostname|'$lc_hn'|g' $lc_base_folder/temp/bind/db.lancache.*
 	sed -i 's|lc-host-proxybind|'$lc_ip'|g' $lc_base_folder/temp/bind/db.lancache.*
 	sed -i 's|lc-host-gw|'$lc_ip_gw'|g' $lc_base_folder/temp/bind/db.lancache.*
@@ -265,9 +267,9 @@ if [ -f "/etc/bind/named.conf" ]; then
 		sudo service bind9 stop
 		sudo mv /etc/bind/named.conf /etc/bind/named.conf.bak
 		if [ ! -d "$lc_base_folder/temp/bind" ]; then
-		sudo mkdir -p $lc_base_folder/temp/bind
-		sudo cp $lc_base_folder/data/lancache/bind/db.lancache.* $lc_base_folder/temp/bind
+
 		sudo cp $lc_base_folder/data/lancache/bind/named.conf.* $lc_bind_loc/
+		sudo cp $lc_base_folder/data/lancache/bind/named.conf $lc_bind_loc/
 		sudo service bind9 start
 	fi
 fi
@@ -342,7 +344,7 @@ if [ -f "/etc/dhcp/dhclient.conf" ]; then
 fi
 
 ## Clean up temp folder
-sudo rm -rf $lc_base_folder/temp
+# sudo rm -rf $lc_base_folder/temp
 fi
 
 exit 0
