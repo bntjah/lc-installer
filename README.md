@@ -1,12 +1,12 @@
     1) git clone -b master http://github.com/bntjah/lc-installer/
 	2) chmod +x installer.sh
 	3) sh installer.sh
-
+	4) sudo /etc/init.d/lancache start
+	
 Notes: It should ask you the first time wich ETH you want it to configure to.
 If you want to reconfigure this at a later state delete the file: /usr/local/lancache/config/interface_used
 
-	16) Start Lancache / Nginx by:
-		sudo /etc/init.d/lancache start
+
 	
 
 	Optional A) Monitor Through nload
