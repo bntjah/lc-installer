@@ -16,6 +16,7 @@ echo "along with this program.  If not, see <http://www.gnu.org/licenses/>."
 echo
 
 ## Other variables
+lc_nginx_url=http://nginx.org/download/nginx-1.9.9.tar.gz
 lc_base_folder=/usr/local/lancache
 lc_nginx_loc=/usr/local/nginx
 lc_srv_loc=/srv/lancache
@@ -204,7 +205,7 @@ fi
 ## Download and extract Nginx if not yet done
 if [ ! -d "$lc_base_folder/data/nginx-1.9.9" ]; then
 	cd $lc_base_folder/data
-	curl http://nginx.org/download/nginx-1.9.9.tar.gz | tar zx>/dev/null
+	curl $lc_nginx_url | tar zx>/dev/null
 fi
 
 ## Check if NGINX is installed and if its not installing it
@@ -237,19 +238,7 @@ if [ -f "/etc/security/limits.conf" ]; then
 	fi
 fi
 
-## Preparing Bind For The Changes to Come
-if [ -f "/etc/bind/named.conf" ]; then
-	cat /etc/bind/named.conf | grep lan-cache>/dev/null
-	if [ $? != 0 ]; then
-		sudo service bind9 stop
-		sudo mv /etc/bind/named.conf /etc/bind/named.conf.bak
-		if [ ! -d "$lc_base_folder/temp/bind" ]; then
-		sudo mkdir -p $lc_base_folder/temp/bind
-		sudo cp $lc_base_folder/data/lancache/bind/db.lancache.* $lc_base_folder/temp/bind
-		sudo cp $lc_base_folder/data/lancache/bind/named.conf.* $lc_bind_loc/
-	fi
-fi
-
+## Preparing Bind Configs
 if [ ! -f "/etc/bind/named.conf.local.lan-cache" ]; then
 	sed -i 's|lc-hostname|'$lc_hn'|g' $lc_base_folder/temp/bind/db.lancache.*
 	sed -i 's|lc-host-proxybind|'$lc_ip'|g' $lc_base_folder/temp/bind/db.lancache.*
@@ -268,6 +257,21 @@ if [ ! -f "/etc/bind/named.conf.local.lan-cache" ]; then
 	sudo cp $lc_base_folder/temp/bind/db.lancache.* $lc_bind_loc/
 	sudo service bind9 start
 fi
+
+## Preparing Bind For The Changes to Come
+if [ -f "/etc/bind/named.conf" ]; then
+	cat /etc/bind/named.conf | grep lan-cache>/dev/null
+	if [ $? != 0 ]; then
+		sudo service bind9 stop
+		sudo mv /etc/bind/named.conf /etc/bind/named.conf.bak
+		if [ ! -d "$lc_base_folder/temp/bind" ]; then
+		sudo mkdir -p $lc_base_folder/temp/bind
+		sudo cp $lc_base_folder/data/lancache/bind/db.lancache.* $lc_base_folder/temp/bind
+		sudo cp $lc_base_folder/data/lancache/bind/named.conf.* $lc_bind_loc/
+		sudo service bind9 start
+	fi
+fi
+
 
 ## Copy The Base Files Over To Temp Folder
 cp $lc_base_folder/data/lancache/hosts $lc_base_folder/temp/hosts
