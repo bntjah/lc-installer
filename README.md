@@ -3,8 +3,10 @@
 	3) sh installer.sh
 	4) sudo /etc/init.d/lancache start
 	
-Notes: It should ask you the first time wich ETH you want it to configure to.
-If you want to reconfigure this at a later state delete the file: /usr/local/lancache/config/interface_used
+Notes:
+	A) It should ask you the first time wich ETH you want it to configure to.
+		If you want to reconfigure this at a later state delete the file: /usr/local/lancache/config/interface_used
+	B) It can be used to run at startup after initial install; then you need to add a line for it to start NGINX
 
 
 	
