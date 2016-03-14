@@ -20,21 +20,3 @@ Notes:
 		-B.2 sudo iftop -i eth1
 		Note ETH1 is the Interface I've defined for Lancache to use
 		
-
-
-  Script itself is licensed under GPL-3.0
-
-      Copyright (C) 2016 Geoffrey 'bn_'
-
-      This program is free software: you can redistribute it and/or modify
-      it under the terms of the GNU General Public License as published by
-      the Free Software Foundation, either version 3 of the License, or
-      any later version.
-
-      This program is distributed in the hope that it will be useful,
-      but WITHOUT ANY WARRANTY; without even the implied warranty of
-      MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-      GNU General Public License for more details.
-      
-      You should have received a copy of the GNU General Public License
-      along with this program.  If not, see <http://www.gnu.org/licenses/>.
