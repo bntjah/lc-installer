@@ -166,7 +166,7 @@ sudo chmod 755 -R $lc_srv_loc/
 fi
 
 ## Checking if GIT is installed if not installing it
-if [ ! -f "/user/bin/git" ]; then
+if [ ! -f "/usr/bin/git" ]; then
 	sudo apt-get install git -y >/dev/null
 fi
 
@@ -176,7 +176,7 @@ if [ ! -d "$lc_bind_loc" ]; then
 fi
 
 ## Checking Build Essential is installed if not installing it
-if [ ! -f "/user/bin/make" ]; then
+if [ ! -f "/usr/bin/make" ]; then
 	sudo apt-get install build-essential -y>/dev/null
 fi
 
