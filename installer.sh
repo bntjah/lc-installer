@@ -219,7 +219,7 @@ fi
 ## Check if sniproxy is installed and if its not installing it
 if [ ! -f "$lc_sniproxy_bin" ]; then
 	cd $lc_base_folder/data/
-	sudo apt-get libudns0 libudns-dev libev4 libev-dev devscripts automake libtool autoconf autotools-dev cdbs debhelper dh-autoreconf dpkg-dev gettext  pkg-config fakeroot -y
+	sudo apt-get install libudns0 libudns-dev libev4 libev-dev devscripts automake libtool autoconf autotools-dev cdbs debhelper dh-autoreconf dpkg-dev gettext  pkg-config fakeroot -y
     git clone https://github.com/dlundquist/sniproxy
     cd sniproxy
     ./autogen.sh
