@@ -285,6 +285,26 @@ fi
 #	fi
 #fi
 
+## Preparing configuration for unbound
+sudo mkdir -p /$lc_base_folder/temp/unbound/
+cp $lc_dl_dir/lancache/unbound/unbound.conf $lc_base_folder/temp/unbound/
+sed -i 's|lc-hostname|'$lc_hn'|g' $lc_base_folder/temp/unbound/unbound.conf
+sed -i 's|lc-host-proxybind|'$lc_ip'|g' $lc_base_folder/unbound/unbound.conf
+sed -i 's|lc-host-gw|'$lc_ip_gw'|g' $lc_base_folder/unbound/unbound.conf
+sed -i 's|lc-host-arena|'$lc_ip_arena'|g' $lc_base_folder/unbound/unbound.conf
+sed -i 's|lc-host-blizzard|'$lc_ip_blizzard'|g' $lc_base_folder/unbound/unbound.conf
+sed -i 's|lc-host-hirez|'$lc_ip_hirez'|g' $lc_base_folder/unbound/unbound.conf
+sed -i 's|lc-host-gog|'$lc_ip_gog'|g' $lc_base_folder/unbound/unbound.conf
+sed -i 's|lc-host-microsoft|'$lc_ip_microsoft'|g' $lc_base_folder/unbound/unbound.conf
+sed -i 's|lc-host-origin|'$lc_ip_origin'|g' $lc_base_folder/unbound/unbound.conf
+sed -i 's|lc-host-riot|'$lc_ip_riot'|g' $lc_base_folder/unbound/unbound.conf
+sed -i 's|lc-host-steam|'$lc_ip_steam'|g' $lc_base_folder/unbound/unbound.conf
+sed -i 's|lc-host-sony|'$lc_ip_sony'|g' $lc_base_folder/unbound/unbound.conf
+sed -i 's|lc-host-tera|'$lc_ip_tera'|g' $lc_base_folder/unbound/unbound.conf
+sed -i 's|lc-host-wargaming|'$lc_ip_wargaming'|g' $lc_base_folder/unbound/unbound.conf
+
+sudo cp $lc_base_folder/unbound/unbound.conf /etc/unbound/unbound.conf
+
 ## Copy The Base Files Over To Temp Folder
 cp $lc_dl_dir/lancache/hosts $lc_base_folder/temp/hosts
 cp $lc_dl_dir/lancache/interfaces $lc_base_folder/temp/interfaces
@@ -328,6 +348,16 @@ sudo sed -i 's|lc-host-proxybind|'$lc_ip'|g' $lc_nginx_loc/conf/vhosts_enabled/*
 if [ ! -f "/etc/init.d/lancache" ]; then
 	sudo cp $lc_dl_dir/lancache/init.d/lancache /etc/init.d/lancache
 	sudo chmod +x /etc/init.d/lancache
+	sudo update-rc.d lancache defaults
+fi
+
+## Autostarting sniproxy
+if [ ! -f "/etc/init.d/sniproxy" ]; then
+	sudo cp $lc_base_folder/sniproxy/debian/init.d/sniproxy /etc/init.d/sniproxy
+	sudo chmod +x /etc/init.d/sniproxy
+	sudo update-rc.d sniproxy defaults
+	sed -i 's|'/usr/sbin'|'/usr/local/sbin'|g' /etc/init.d/sniproxy
+	sed -i 's|'DAEMON_ARGS=""'|'DAEMON_ARGS="-c /etc/sniproxy.conf"'|g' /etc/init.d/sniproxy
 fi
 
 ## Moving Base Files to The Correct Locations if not already installed
@@ -347,13 +377,20 @@ if [ -f "/etc/network/interfaces" ]; then
 	fi
 fi
 
-if [ -f "/etc/dhcp/dhclient.conf" ]; then
-	cat /etc/dhcp/dhclient.conf | grep $lc_ip_googledns1>/dev/null
-	if [ $? != 0 ]; then
-		sudo mv /etc/dhcp/dhclient.conf /etc/dhcp/dhclient.conf.bak
-		sudo cp $lc_dl_dir/lancache/dhclient.conf /etc/dhcp/dhclient.conf
-	fi
-fi
+# Disabling IPv6
+sudo echo "net.ipv6.conf.all.disable_ipv6=1" >/etc/sysctl.d/disable-ipv6.conf
+sudo sysctl -p /etc/sysctl.d/disable-ipv6.conf
+
+# Updating local DNS resolvers
+sudo echo "nameserver $lc_ip_googledns1 $lc_ip_googledns2" > /etc/resolv.conf
+
+#if [ -f "/etc/dhcp/dhclient.conf" ]; then
+#	cat /etc/dhcp/dhclient.conf | grep $lc_ip_googledns1>/dev/null
+#	if [ $? != 0 ]; then
+#		sudo mv /etc/dhcp/dhclient.conf /etc/dhcp/dhclient.conf.bak
+#		sudo cp $lc_dl_dir/lancache/dhclient.conf /etc/dhcp/dhclient.conf
+#	fi
+#fi
 
 ## Clean up temp folder
 #sudo rm -rf $lc_base_folder/temp
