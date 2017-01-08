@@ -356,8 +356,8 @@ if [ ! -f "/etc/init.d/sniproxy" ]; then
 	sudo cp $lc_base_folder/sniproxy/debian/init.d/sniproxy /etc/init.d/sniproxy
 	sudo chmod +x /etc/init.d/sniproxy
 	sudo update-rc.d sniproxy defaults
-	sed -i 's|'/usr/sbin'|'/usr/local/sbin'|g' /etc/init.d/sniproxy
-	sed -i 's|'DAEMON_ARGS=""'|'DAEMON_ARGS="-c /etc/sniproxy.conf"'|g' /etc/init.d/sniproxy
+	sudo sed -i 's|'/usr/sbin'|'/usr/local/sbin'|g' /etc/init.d/sniproxy
+	sudo echo 'DAEMON_ARGS="-c /etc/sniproxy.conf"' > /etc/default/sniproxy
 fi
 
 ## Moving Base Files to The Correct Locations if not already installed
