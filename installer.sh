@@ -1,7 +1,7 @@
 #!/bin/bash
 ## Other variables
 lc_dl_dir=$( pwd )
-lc_nginx_url=http://nginx.org/download/nginx-1.11.3.tar.gz
+lc_nginx_url=http://nginx.org/download/nginx-1.11.8.tar.gz
 lc_base_folder=/usr/local/lancache
 lc_nginx_loc=/usr/local/nginx
 lc_sniproxy_bin=/usr/local/sbin/sniproxy
@@ -160,6 +160,7 @@ sudo mkdir -p $lc_srv_loc/data/steam/
 sudo mkdir -p $lc_srv_loc/data/wargaming/
 sudo mkdir -p $lc_srv_loc/data/tera/
 sudo mkdir -p $lc_srv_loc/data/arenanetworks/
+sudo mkdir -p $lc_srv_loc/data/gog/
 sudo mkdir -p $lc_srv_loc/logs/
 sudo mkdir -p $lc_srv_loc/logs/Errors
 sudo mkdir -p $lc_srv_loc/logs/Keys
@@ -202,14 +203,14 @@ git submodule update --remote --recursive
 #fi
 
 ## Download and extract nginx if not yet done
-if [ ! -d "$lc_base_folder/data/nginx-1.11.3" ]; then
+if [ ! -d "$lc_base_folder/data/nginx-1.11.8" ]; then
 	cd $lc_base_folder/data
 	curl $lc_nginx_url | tar zx>/dev/null
 fi
 
 ## Check if nginx is installed and if its not installing it
 if [ ! -d "$lc_nginx_loc" ]; then
-	cd $lc_base_folder/data/nginx-1.11.3
+	cd $lc_base_folder/data/nginx-1.11.8
 	sudo apt-get install libpcre3 libpcre3-dev zlib1g-dev libreadline-dev libncurses5-dev libssl-dev -y
 	./configure --with-http_ssl_module --with-http_slice_module
 	sudo make
