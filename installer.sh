@@ -384,7 +384,8 @@ sudo echo "net.ipv6.conf.all.disable_ipv6=1" >/etc/sysctl.d/disable-ipv6.conf
 sudo sysctl -p /etc/sysctl.d/disable-ipv6.conf
 
 # Updating local DNS resolvers
-sudo echo "nameserver $lc_ip_googledns1 $lc_ip_googledns2" > /etc/resolv.conf
+sudo echo "nameserver $lc_ip_googledns1" > /etc/resolv.conf
+sudo echo "nameserver $lc_ip_googledns2" >> /etc/resolv.conf
 
 #if [ -f "/etc/dhcp/dhclient.conf" ]; then
 #	cat /etc/dhcp/dhclient.conf | grep $lc_ip_googledns1>/dev/null
