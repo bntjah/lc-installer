@@ -133,7 +133,7 @@ echo Wargaming: $lc_ip_wargaming >>$lc_base_folder/logs/$lc_ip_logfile
 ## Check if the Temp Folder Exists
 ## Normally this should not exist
 if [ ! -d "$lc_base_folder/temp" ]; then
-mkdir $lc_base_folder/temp
+mkdir -p $lc_base_folder/temp
 fi
 
 ## Check if the Lancache user exists if not creating the user
@@ -194,10 +194,11 @@ if [ ! -f "/usr/bin/make" ]; then
 	sudo apt-get install build-essential -y>/dev/null
 fi
 
-## Download Lancache into Data Folder if not yet done
-#if [ ! -d "$lc_base_folder/data/lancache" ]; then
-#	cd $lc_base_folder/data/
-#	git clone -b installer http://github.com/fhibler/lancache>/dev/null
+## Update lancache config folder from github
+#if [ ! -f "$lc_dl_dir/lancache/README.md" ]; then
+cd $lc_dl_dir
+git pull --recurse-submodules
+git submodule update --remote --recursive
 #fi
 
 ## Download and extract nginx if not yet done
@@ -241,7 +242,7 @@ fi
 ## Checking if the Limits of the system are changed
 ## for Lancache to work without issues
 if [ -f "/etc/security/limits.conf" ]; then
-	cat /etc/security/limits.conf | grep 65536>/dev/null
+	cat /etc/security/limits.conf > /dev/null | grep 65536
 	if [ $? != 0 ]; then
 		sudo mv /etc/security/limits.conf /etc/security/limits.conf.bak
 		sudo cp $lc_dl_dir/lancache/limits.conf /etc/security/limits.conf
