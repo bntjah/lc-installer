@@ -35,7 +35,7 @@ sudo chown -R $USER:$USER $lc_base_folder
 ## Save the MacAdresses if not already done
 lc_list_int=$( ls /sys/class/net | grep -v lo)
 lc_list_mac=$( cat /sys/class/net/*/address | grep -v 00:00:00:00:00:00 )
-echo The MAC Adresses for these Interfaces are:
+echo The MAC Adresses for these interfaces are:
 echo $lc_list_int
 echo $lc_list_mac
 
@@ -357,7 +357,6 @@ fi
 
 ## Clean up temp folder
 #sudo rm -rf $lc_base_folder/temp
-fi
 
 echo Please reboot your system for the changes to take effect.
 exit 0
