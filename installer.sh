@@ -221,6 +221,7 @@ if [ ! -f "$lc_sniproxy_bin" ]; then
 	cd $lc_base_folder/data/
 	sudo apt-get libudns0 libudns-dev libev4 libev-dev devscripts automake libtool autoconf autotools-dev cdbs debhelper dh-autoreconf dpkg-dev gettext  pkg-config fakeroot -y
     git clone https://github.com/dlundquist/sniproxy
+    cd sniproxy
     ./autogen.sh
 	./configure
 	sudo make
@@ -288,20 +289,20 @@ fi
 ## Preparing configuration for unbound
 sudo mkdir -p /$lc_base_folder/temp/unbound/
 cp $lc_dl_dir/lancache/unbound/unbound.conf $lc_base_folder/temp/unbound/
-sed -i 's|lc-hostname|'$lc_hn'|g' $lc_base_folder/temp/unbound/unbound.conf
-sed -i 's|lc-host-proxybind|'$lc_ip'|g' $lc_base_folder/unbound/unbound.conf
-sed -i 's|lc-host-gw|'$lc_ip_gw'|g' $lc_base_folder/unbound/unbound.conf
-sed -i 's|lc-host-arena|'$lc_ip_arena'|g' $lc_base_folder/unbound/unbound.conf
-sed -i 's|lc-host-blizzard|'$lc_ip_blizzard'|g' $lc_base_folder/unbound/unbound.conf
-sed -i 's|lc-host-hirez|'$lc_ip_hirez'|g' $lc_base_folder/unbound/unbound.conf
-sed -i 's|lc-host-gog|'$lc_ip_gog'|g' $lc_base_folder/unbound/unbound.conf
-sed -i 's|lc-host-microsoft|'$lc_ip_microsoft'|g' $lc_base_folder/unbound/unbound.conf
-sed -i 's|lc-host-origin|'$lc_ip_origin'|g' $lc_base_folder/unbound/unbound.conf
-sed -i 's|lc-host-riot|'$lc_ip_riot'|g' $lc_base_folder/unbound/unbound.conf
-sed -i 's|lc-host-steam|'$lc_ip_steam'|g' $lc_base_folder/unbound/unbound.conf
-sed -i 's|lc-host-sony|'$lc_ip_sony'|g' $lc_base_folder/unbound/unbound.conf
-sed -i 's|lc-host-tera|'$lc_ip_tera'|g' $lc_base_folder/unbound/unbound.conf
-sed -i 's|lc-host-wargaming|'$lc_ip_wargaming'|g' $lc_base_folder/unbound/unbound.conf
+sed -i 's|lc-host-ip|'$lc_ip'|g' $lc_base_folder/temp/unbound/unbound.conf
+sed -i 's|lc-host-proxybind|'$lc_ip'|g' $lc_base_folder/temp/unbound/unbound.conf
+sed -i 's|lc-host-gw|'$lc_ip_gw'|g' $lc_base_folder/temp/unbound/unbound.conf
+sed -i 's|lc-host-arena|'$lc_ip_arena'|g' $lc_base_folder/temp/unbound/unbound.conf
+sed -i 's|lc-host-blizzard|'$lc_ip_blizzard'|g' $lc_base_folder/temp/unbound/unbound.conf
+sed -i 's|lc-host-hirez|'$lc_ip_hirez'|g' $lc_base_folder/temp/unbound/unbound.conf
+sed -i 's|lc-host-gog|'$lc_ip_gog'|g' $lc_base_folder/temp/unbound/unbound.conf
+sed -i 's|lc-host-microsoft|'$lc_ip_microsoft'|g' $lc_base_folder/temp/unbound/unbound.conf
+sed -i 's|lc-host-origin|'$lc_ip_origin'|g' $lc_base_folder/temp/unbound/unbound.conf
+sed -i 's|lc-host-riot|'$lc_ip_riot'|g' $lc_base_folder/temp/unbound/unbound.conf
+sed -i 's|lc-host-steam|'$lc_ip_steam'|g' $lc_base_folder/temp/unbound/unbound.conf
+sed -i 's|lc-host-sony|'$lc_ip_sony'|g' $lc_base_folder/temp/unbound/unbound.conf
+sed -i 's|lc-host-tera|'$lc_ip_tera'|g' $lc_base_folder/temp/unbound/unbound.conf
+sed -i 's|lc-host-wargaming|'$lc_ip_wargaming'|g' $lc_base_folder/temp/unbound/unbound.conf
 
 sudo cp $lc_base_folder/unbound/unbound.conf /etc/unbound/unbound.conf
 
