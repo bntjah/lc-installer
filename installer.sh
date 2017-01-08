@@ -395,6 +395,9 @@ sudo echo "nameserver $lc_ip_googledns2" >> /etc/resolv.conf
 #	fi
 #fi
 
+# Install traffic monitoring tools
+sudo apt-get install nload iftop tcpdump tshark -y
+
 ## Clean up temp folder
 #sudo rm -rf $lc_base_folder/temp
 
