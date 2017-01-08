@@ -1,10 +1,13 @@
 #!/bin/bash
 ## Other variables
-lc_nginx_url=http://nginx.org/download/nginx-1.9.9.tar.gz
+lc_dl_dir=$( pwd )
+lc_nginx_url=http://nginx.org/download/nginx-1.11.3.tar.gz
 lc_base_folder=/usr/local/lancache
 lc_nginx_loc=/usr/local/nginx
+lc_sniproxy_bin=/usr/local/sbin/sniproxy
 lc_srv_loc=/srv/lancache
-lc_bind_loc=/etc/bind
+#lc_bind_loc=/etc/bind
+lc_unbound_loc=/etc/unbound
 lc_date=$( date +"%m-%d-%y %T" )
 lc_hn=$( hostname )
 lc_int_log=interface_used.log
@@ -24,7 +27,7 @@ if [ ! -d "$lc_base_folder/data" ]; then
 fi
 
 if [ ! -d "$lc_base_folder/logs" ]; then
-	sudo mkdir -p $lc_base_folder/logs
+	sudo mkdir -p $lc_base_folder/logs/
 fi
 
 sudo chown -R $USER:$USER $lc_base_folder
@@ -47,13 +50,13 @@ if [ ! -f "$lc_base_folder/config/interface_used" ]; then
 		rm -rf $lc_base_folder/config/interface_used
 	fi
 
-	echo Please Enter The Interface to Use:
-	echo The Interfaces on this machine are: $lc_list_int
+	echo Please enter the interface to use:
+	echo The interfaces on this machine are: $lc_list_int
 		read lc_input
-	echo You have Entered: $lc_input
+	echo You have entered: $lc_input
 	lc_input_interface=$lc_input
 	echo
-	echo Checking if this Interface Exists...
+	echo Checking if this interface exists...
 
 	## Built in Check
 	ls /sys/class/net | grep $lc_input_interface >/dev/null
@@ -64,21 +67,21 @@ if [ ! -f "$lc_base_folder/config/interface_used" ]; then
 		echo The user $USER entered the following interface: $lc_input_interface >>$lc_base_folder/logs/$lc_int_log
 		echo Wich doesnt exist >>$lc_base_folder/logs/$lc_int_log
 		echo
-		echo The Available Interfaces $USER could choose from: $lc_list_int >>$lc_base_folder/logs/$lc_int_log
+		echo The available interfaces $USER could choose from: $lc_list_int >>$lc_base_folder/logs/$lc_int_log
 	else
 		echo It seems that $lc_input_interface exists
 		echo
-		echo Now Defining the necessary files
+		echo Now defining the necessary files
 		echo $lc_input_interface >$lc_base_folder/config/interface_used
 		echo >>$lc_base_folder/logs/$lc_int_log
-		echo [ lc_date ] !!! SUCCES !!! >>$lc_base_folder/logs/$lc_int_log
+		echo [ lc_date ] !!! SUCCESS !!! >>$lc_base_folder/logs/$lc_int_log
 		echo The user $USER choose the following interface: $lc_input_interface from $lc_list_int >>$lc_base_folder/logs/$lc_int_log
 	fi
 fi
 ## Divide the ip in variables
 lc_eth_int=$( cat $lc_base_folder/config/interface_used )
-lc_ip=$(echo `ifconfig $lc_eth_int 2>/dev/null|awk '/inet addr:/ {print $2}'|sed 's/addr://'` )
-lc_eth_netmask=$( ifconfig $lc_eth_int |sed -rn '2s/ .*:(.*)$/\1/p' )
+lc_ip=$(echo `sudo ifconfig $lc_eth_int 2>/dev/null|awk '/inet addr:/ {print $2}'|sed 's/addr://'` )
+lc_eth_netmask=$( sudo ifconfig $lc_eth_int |sed -rn '2s/ .*:(.*)$/\1/p' )
 lc_ip_p1=$(echo ${lc_ip} | tr "." " " | awk '{ print $1 }')
 lc_ip_p2=$(echo ${lc_ip} | tr "." " " | awk '{ print $2 }')
 lc_ip_p3=$(echo ${lc_ip} | tr "." " " | awk '{ print $3 }')
@@ -110,7 +113,7 @@ lc_ip_wargaming=$lc_ip_p1.$lc_ip_p2.$lc_ip_p3.$lc_incr_wargaming
 
 ## Put IP's in the log file
 echo [ lc_date ] Information !!! >>$lc_base_folder/logs/$lc_ip_logfile
-echo IP Addresses beeing used: >>$lc_base_folder/logs/$lc_ip_logfile
+echo IP addresses being used: >>$lc_base_folder/logs/$lc_ip_logfile
 echo >>$lc_base_folder/logs/$lc_ip_logfile
 echo IP for $lc_eth_int is $lc_ip_p1.$lc_ip_p2.$lc_ip_p3.$lc_ip_p4 >>$lc_base_folder/logs/$lc_ip_logfile
 echo Netmask for $lc_eth_int is lc_eth_netmask >>$lc_base_folder/logs/$lc_ip_logfile
@@ -133,9 +136,6 @@ if [ ! -d "$lc_base_folder/temp" ]; then
 mkdir $lc_base_folder/temp
 fi
 
-
-
-
 ## Check if the Lancache user exists if not creating the user
 if id -u "lancache" >/dev/null 2>&1; then
 	echo The user lancache exists so nothing needs to be done!
@@ -147,22 +147,31 @@ fi
 
 ## Creating the Necessary Folders for Lancache Data
 if [ ! -d "$lc_srv_loc" ]; then
-sudo mkdir -p $lc_srv_loc/data/blizzard
-sudo mkdir -p $lc_srv_loc/data/microsoft
-sudo mkdir -p $lc_srv_loc/data/installs
-sudo mkdir -p $lc_srv_loc/data/other
-sudo mkdir -p $lc_srv_loc/data/tmp
+sudo mkdir -p $lc_srv_loc/data/blizzard/
+sudo mkdir -p $lc_srv_loc/data/microsoft/
+sudo mkdir -p $lc_srv_loc/data/installs/
+sudo mkdir -p $lc_srv_loc/data/other/
+sudo mkdir -p $lc_srv_loc/data/tmp/
 sudo mkdir -p $lc_srv_loc/data/hirez/
 sudo mkdir -p $lc_srv_loc/data/origin/
 sudo mkdir -p $lc_srv_loc/data/riot/
 sudo mkdir -p $lc_srv_loc/data/sony/
 sudo mkdir -p $lc_srv_loc/data/steam/
-sudo mkdir -p $lc_srv_loc/logs
-sudo mkdir -p $lc_srv_loc/data/wargaming
-sudo mkdir -p $lc_srv_loc/data/tera
-sudo mkdir -p $lc_srv_loc/data/arenanetworks
+sudo mkdir -p $lc_srv_loc/data/wargaming/
+sudo mkdir -p $lc_srv_loc/data/tera/
+sudo mkdir -p $lc_srv_loc/data/arenanetworks/
+sudo mkdir -p $lc_srv_loc/logs/
+sudo mkdir -p $lc_srv_loc/logs/Errors
+sudo mkdir -p $lc_srv_loc/logs/Keys
+sudo mkdir -p $lc_srv_loc/logs/Access
+
 sudo chown -R lancache:lancache $lc_srv_loc/
 sudo chmod 755 -R $lc_srv_loc/
+fi
+
+## Checking if GIT is installed if not installing it
+if [ ! -f "/usr/bin/curl" ]; then
+	sudo apt-get install curl -y >/dev/null
 fi
 
 ## Checking if GIT is installed if not installing it
@@ -171,8 +180,13 @@ if [ ! -f "/usr/bin/git" ]; then
 fi
 
 ## Check if BIND9 is installed and if its not installing it
-if [ ! -d "$lc_bind_loc" ]; then
-	sudo apt-get install bind9 -y>/dev/null
+#if [ ! -d "$lc_bind_loc" ]; then
+#	sudo apt-get install bind9 -y>/dev/null
+#fi
+
+## Check if Unbound is installed and if its not installing it
+if [ ! -d "$lc_unbound_loc" ]; then
+	sudo apt-get install unbound -y>/dev/null
 fi
 
 ## Checking Build Essential is installed if not installing it
@@ -181,35 +195,47 @@ if [ ! -f "/usr/bin/make" ]; then
 fi
 
 ## Download Lancache into Data Folder if not yet done
-if [ ! -d "$lc_base_folder/data/lancache" ]; then
-	cd $lc_base_folder/data/
-	git clone -b installer http://github.com/bntjah/lancache>/dev/null
-fi
+#if [ ! -d "$lc_base_folder/data/lancache" ]; then
+#	cd $lc_base_folder/data/
+#	git clone -b installer http://github.com/fhibler/lancache>/dev/null
+#fi
 
-## Download and extract Nginx if not yet done
-if [ ! -d "$lc_base_folder/data/nginx-1.9.9" ]; then
+## Download and extract nginx if not yet done
+if [ ! -d "$lc_base_folder/data/nginx-1.11.3" ]; then
 	cd $lc_base_folder/data
 	curl $lc_nginx_url | tar zx>/dev/null
 fi
 
-## Check if NGINX is installed and if its not installing it
+## Check if nginx is installed and if its not installing it
 if [ ! -d "$lc_nginx_loc" ]; then
-	cd $lc_base_folder/data/nginx-1.9.9
+	cd $lc_base_folder/data/nginx-1.11.3
 	sudo apt-get install libpcre3 libpcre3-dev zlib1g-dev libreadline-dev libncurses5-dev libssl-dev -y
 	./configure --with-http_ssl_module --with-http_slice_module
 	sudo make
 	sudo make install
 fi
 
+## Check if sniproxy is installed and if its not installing it
+if [ ! -f "$lc_sniproxy_bin" ]; then
+	cd $lc_base_folder/data/
+	sudo apt-get libudns0 libudns-dev libev4 libev-dev devscripts automake libtool autoconf autotools-dev cdbs debhelper dh-autoreconf dpkg-dev gettext  pkg-config fakeroot -y
+    git clone https://github.com/dlundquist/sniproxy
+    ./autogen.sh
+	./configure
+	sudo make
+	sudo make install
+    sudo curl https://raw.githubusercontent.com/OpenSourceLAN/origin-docker/master/sniproxy/sniproxy.conf -o /etc/sniproxy.conf
+fi
+
 ## Doing the necessary changes for Lancache
 if [ ! -d "$lc_nginx_loc/conf/lancache" ]; then
-	cd $lc_base_folder/data/lancache/conf
+	cd $lc_dl_dir/lancache/conf
 	sudo mv $lc_nginx_loc/conf/nginx.conf $lc_nginx_loc/conf/nginx.conf.bak
-	sudo cp $lc_base_folder/data/lancache/conf/nginx.conf $lc_nginx_loc/conf/nginx.conf
+	sudo cp $lc_dl_dir/lancache/conf/nginx.conf $lc_nginx_loc/conf/nginx.conf
 	sudo mkdir $lc_nginx_loc/conf/lancache
 	sudo mkdir $lc_nginx_loc/conf/vhosts_enabled/
-	sudo cp $lc_base_folder/data/lancache/conf/lancache/* $lc_nginx_loc/conf/lancache
-	sudo cp $lc_base_folder/data/lancache/conf/vhosts-enabled/*.conf $lc_nginx_loc/conf/vhosts_enabled/
+	sudo cp $lc_dl_dir/lancache/conf/lancache/* $lc_nginx_loc/conf/lancache
+	sudo cp $lc_dl_dir/lancache/conf/vhosts-enabled/*.conf $lc_nginx_loc/conf/vhosts_enabled/
 fi
 
 ## Checking if the Limits of the system are changed
@@ -218,50 +244,49 @@ if [ -f "/etc/security/limits.conf" ]; then
 	cat /etc/security/limits.conf | grep 65536>/dev/null
 	if [ $? != 0 ]; then
 		sudo mv /etc/security/limits.conf /etc/security/limits.conf.bak
-		sudo cp $lc_base_folder/data/lancache/limits.conf /etc/security/limits.conf
+		sudo cp $lc_dl_dir/lancache/limits.conf /etc/security/limits.conf
 	fi
 fi
 
 ## Preparing Bind Configs
-if [ ! -f "/etc/bind/named.conf.local.lan-cache" ]; then
-	mkdir -p $lc_base_folder/temp/bind
-	cp $lc_base_folder/data/lancache/bind/db.lancache.* $lc_base_folder/temp/bind
-	sed -i 's|lc-hostname|'$lc_hn'|g' $lc_base_folder/temp/bind/db.lancache.*
-	sed -i 's|lc-host-proxybind|'$lc_ip'|g' $lc_base_folder/temp/bind/db.lancache.*
-	sed -i 's|lc-host-gw|'$lc_ip_gw'|g' $lc_base_folder/temp/bind/db.lancache.*
-	sed -i 's|lc-host-arena|'$lc_ip_arena'|g' $lc_base_folder/temp/bind/db.lancache.*
-	sed -i 's|lc-host-blizzard|'$lc_ip_blizzard'|g' $lc_base_folder/temp/bind/db.lancache.*
-	sed -i 's|lc-host-hirez|'$lc_ip_hirez'|g' $lc_base_folder/temp/bind/db.lancache.*
-	sed -i 's|lc-host-gog|'$lc_ip_gog'|g' $lc_base_folder/temp/bind/db.lancache.*
-	sed -i 's|lc-host-microsoft|'$lc_ip_microsoft'|g' $lc_base_folder/temp/bind/db.lancache.*
-	sed -i 's|lc-host-origin|'$lc_ip_origin'|g' $lc_base_folder/temp/bind/db.lancache.*
-	sed -i 's|lc-host-riot|'$lc_ip_riot'|g' $lc_base_folder/temp/bind/db.lancache.*
-	sed -i 's|lc-host-steam|'$lc_ip_steam'|g' $lc_base_folder/temp/bind/db.lancache.*
-	sed -i 's|lc-host-sony|'$lc_ip_sony'|g' $lc_base_folder/temp/bind/db.lancache.*
-	sed -i 's|lc-host-tera|'$lc_ip_tera'|g' $lc_base_folder/temp/bind/db.lancache.*
-	sed -i 's|lc-host-wargaming|'$lc_ip_wargaming'|g' $lc_base_folder/temp/bind/db.lancache.*
-	sudo cp $lc_base_folder/temp/bind/db.lancache.* $lc_bind_loc/
-	sudo service bind9 start
-fi
+#if [ ! -f "/etc/bind/named.conf.local.lan-cache" ]; then
+#	mkdir -p $lc_base_folder/temp/bind
+#	cp $lc_dl_dir/lancache/bind/db.lancache.* $lc_base_folder/temp/bind
+#	sed -i 's|lc-hostname|'$lc_hn'|g' $lc_base_folder/temp/bind/db.lancache.*
+#	sed -i 's|lc-host-proxybind|'$lc_ip'|g' $lc_base_folder/temp/bind/db.lancache.*
+#	sed -i 's|lc-host-gw|'$lc_ip_gw'|g' $lc_base_folder/temp/bind/db.lancache.*
+#	sed -i 's|lc-host-arena|'$lc_ip_arena'|g' $lc_base_folder/temp/bind/db.lancache.*
+#	sed -i 's|lc-host-blizzard|'$lc_ip_blizzard'|g' $lc_base_folder/temp/bind/db.lancache.*
+#	sed -i 's|lc-host-hirez|'$lc_ip_hirez'|g' $lc_base_folder/temp/bind/db.lancache.*
+#	sed -i 's|lc-host-gog|'$lc_ip_gog'|g' $lc_base_folder/temp/bind/db.lancache.*
+#	sed -i 's|lc-host-microsoft|'$lc_ip_microsoft'|g' $lc_base_folder/temp/bind/db.lancache.*
+#	sed -i 's|lc-host-origin|'$lc_ip_origin'|g' $lc_base_folder/temp/bind/db.lancache.*
+#	sed -i 's|lc-host-riot|'$lc_ip_riot'|g' $lc_base_folder/temp/bind/db.lancache.*
+#	sed -i 's|lc-host-steam|'$lc_ip_steam'|g' $lc_base_folder/temp/bind/db.lancache.*
+#	sed -i 's|lc-host-sony|'$lc_ip_sony'|g' $lc_base_folder/temp/bind/db.lancache.*
+#	sed -i 's|lc-host-tera|'$lc_ip_tera'|g' $lc_base_folder/temp/bind/db.lancache.*
+#	sed -i 's|lc-host-wargaming|'$lc_ip_wargaming'|g' $lc_base_folder/temp/bind/db.lancache.*
+#	sudo cp $lc_base_folder/temp/bind/db.lancache.* $lc_bind_loc/
+#	sudo service bind9 start
+#fi
 
 ## Preparing Bind For The Changes to Come
-if [ -f "/etc/bind/named.conf" ]; then
-	cat /etc/bind/named.conf | grep lan-cache>/dev/null
-	if [ $? != 0 ]; then
-		sudo service bind9 stop
-		sudo mv /etc/bind/named.conf /etc/bind/named.conf.bak
-		if [ ! -d "$lc_base_folder/temp/bind" ]; then
-
-		sudo cp $lc_base_folder/data/lancache/bind/named.conf.* $lc_bind_loc/
-		sudo cp $lc_base_folder/data/lancache/bind/named.conf $lc_bind_loc/
-		sudo service bind9 start
-	fi
-fi
-
+#if [ -f "/etc/bind/named.conf" ]; then
+#	cat /etc/bind/named.conf | grep lan-cache>/dev/null
+#	if [ $? != 0 ]; then
+#		sudo service bind9 stop
+#		sudo mv /etc/bind/named.conf /etc/bind/named.conf.bak
+#		if [ ! -d "$lc_base_folder/temp/bind" ]; then
+#
+#		sudo cp $lc_dl_dir/lancache/bind/named.conf.* $lc_bind_loc/
+#		sudo cp $lc_dl_dir/lancache/bind/named.conf $lc_bind_loc/
+#		sudo service bind9 start
+#	fi
+#fi
 
 ## Copy The Base Files Over To Temp Folder
-cp $lc_base_folder/data/lancache/hosts $lc_base_folder/temp/hosts
-cp $lc_base_folder/data/lancache/interfaces $lc_base_folder/temp/interfaces
+cp $lc_dl_dir/lancache/hosts $lc_base_folder/temp/hosts
+cp $lc_dl_dir/lancache/interfaces $lc_base_folder/temp/interfaces
 
 ## Make the Necessary Changes For The New Host File
 sed -i 's|lc-hostname|'$lc_hn'|g' $lc_base_folder/temp/hosts
@@ -279,6 +304,8 @@ sed -i 's|lc-host-tera|'$lc_ip_tera'|g' $lc_base_folder/temp/hosts
 sed -i 's|lc-host-wargaming|'$lc_ip_wargaming'|g' $lc_base_folder/temp/hosts
 
 ## Make the Necessary Changes For The New Interfaces File
+sed -i 's|lc-host-ip|'$lc_ip'|g' $lc_base_folder/temp/interfaces
+sed -i 's|lc-host-gateway|'$lc_ip_gw'|g' $lc_base_folder/temp/interfaces
 sed -i 's|lc-host-arena|'$lc_ip_arena'|g' $lc_base_folder/temp/interfaces
 sed -i 's|lc-host-blizzard|'$lc_ip_blizzard'|g' $lc_base_folder/temp/interfaces
 sed -i 's|lc-host-hirez|'$lc_ip_hirez'|g' $lc_base_folder/temp/interfaces
@@ -298,7 +325,7 @@ sudo sed -i 's|lc-host-proxybind|'$lc_ip'|g' $lc_nginx_loc/conf/vhosts_enabled/*
 
 ## Copy The init.d file over to /etc/init.d/
 if [ ! -f "/etc/init.d/lancache" ]; then
-	sudo cp $lc_base_folder/data/lancache/init.d/lancache /etc/init.d/lancache
+	sudo cp $lc_dl_dir/lancache/init.d/lancache /etc/init.d/lancache
 	sudo chmod +x /etc/init.d/lancache
 fi
 
@@ -323,12 +350,13 @@ if [ -f "/etc/dhcp/dhclient.conf" ]; then
 	cat /etc/dhcp/dhclient.conf | grep $lc_ip_googledns1>/dev/null
 	if [ $? != 0 ]; then
 		sudo mv /etc/dhcp/dhclient.conf /etc/dhcp/dhclient.conf.bak
-		sudo cp $lc_base_folder/data/lancache/dhclient.conf /etc/dhcp/dhclient.conf
+		sudo cp $lc_dl_dir/lancache/dhclient.conf /etc/dhcp/dhclient.conf
 	fi
 fi
 
 ## Clean up temp folder
-sudo rm -rf $lc_base_folder/temp
+#sudo rm -rf $lc_base_folder/temp
 fi
 
+echo Please reboot your system for the changes to take effect.
 exit 0
