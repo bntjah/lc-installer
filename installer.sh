@@ -362,13 +362,13 @@ if [ ! -f "/etc/init.d/sniproxy" ]; then
 fi
 
 ## Moving Base Files to The Correct Locations if not already installed
-if [ -f "/etc/hosts" ]; then
-	cat /etc/hosts | grep lancache-*>/dev/null
-	if [ $? != 0 ]; then
-		sudo mv /etc/hosts /etc/hosts.bak
-		sudo mv $lc_base_folder/temp/hosts /etc/hosts
-	fi
-fi
+#if [ -f "/etc/hosts" ]; then
+#	cat /etc/hosts | grep lancache-*>/dev/null
+#	if [ $? != 0 ]; then
+sudo mv /etc/hosts /etc/hosts.bak
+sudo cp $lc_base_folder/temp/hosts /etc/hosts
+#	fi
+#fi
 
 if [ -f "/etc/network/interfaces" ]; then
 	cat /etc/network/interfaces | grep $lc_ip_steam>/dev/null
