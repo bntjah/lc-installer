@@ -116,7 +116,7 @@ echo [ lc_date ] Information !!! >>$lc_base_folder/logs/$lc_ip_logfile
 echo IP addresses being used: >>$lc_base_folder/logs/$lc_ip_logfile
 echo >>$lc_base_folder/logs/$lc_ip_logfile
 echo IP for $lc_eth_int is $lc_ip_p1.$lc_ip_p2.$lc_ip_p3.$lc_ip_p4 >>$lc_base_folder/logs/$lc_ip_logfile
-echo Netmask for $lc_eth_int is lc_eth_netmask >>$lc_base_folder/logs/$lc_ip_logfile
+echo Netmask for $lc_eth_int is $lc_eth_netmask >>$lc_base_folder/logs/$lc_ip_logfile
 echo >>$lc_base_folder/logs/$lc_ip_logfile
 echo Arena: $lc_ip_arena >>$lc_base_folder/logs/$lc_ip_logfile
 echo Blizzard: $lc_ip_blizzard >>$lc_base_folder/logs/$lc_ip_logfile
