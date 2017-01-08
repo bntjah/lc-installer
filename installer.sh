@@ -354,7 +354,7 @@ fi
 
 ## Autostarting sniproxy
 if [ ! -f "/etc/init.d/sniproxy" ]; then
-	sudo cp $lc_base_folder/sniproxy/debian/init.d/sniproxy /etc/init.d/sniproxy
+	sudo cp $lc_base_folder/data/sniproxy/debian/init.d/sniproxy /etc/init.d/sniproxy
 	sudo chmod +x /etc/init.d/sniproxy
 	sudo update-rc.d sniproxy defaults
 	sudo sed -i 's|'/usr/sbin'|'/usr/local/sbin'|g' /etc/init.d/sniproxy
