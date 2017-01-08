@@ -304,7 +304,7 @@ sed -i 's|lc-host-sony|'$lc_ip_sony'|g' $lc_base_folder/temp/unbound/unbound.con
 sed -i 's|lc-host-tera|'$lc_ip_tera'|g' $lc_base_folder/temp/unbound/unbound.conf
 sed -i 's|lc-host-wargaming|'$lc_ip_wargaming'|g' $lc_base_folder/temp/unbound/unbound.conf
 
-sudo cp $lc_base_folder/unbound/unbound.conf /etc/unbound/unbound.conf
+sudo cp $lc_base_folder/temp/unbound/unbound.conf /etc/unbound/unbound.conf
 
 ## Copy The Base Files Over To Temp Folder
 cp $lc_dl_dir/lancache/hosts $lc_base_folder/temp/hosts
@@ -354,7 +354,7 @@ fi
 
 ## Autostarting sniproxy
 if [ ! -f "/etc/init.d/sniproxy" ]; then
-	sudo cp $lc_base_folder/data/sniproxy/debian/init.d/sniproxy /etc/init.d/sniproxy
+	sudo cp $lc_base_folder/data/sniproxy/debian/init.d /etc/init.d/sniproxy
 	sudo chmod +x /etc/init.d/sniproxy
 	sudo update-rc.d sniproxy defaults
 	sudo sed -i 's|'/usr/sbin'|'/usr/local/sbin'|g' /etc/init.d/sniproxy
