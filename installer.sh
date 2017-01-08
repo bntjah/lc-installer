@@ -236,9 +236,9 @@ if [ ! -d "$lc_nginx_loc/conf/lancache" ]; then
 	sudo mv $lc_nginx_loc/conf/nginx.conf $lc_nginx_loc/conf/nginx.conf.bak
 	sudo cp $lc_dl_dir/lancache/conf/nginx.conf $lc_nginx_loc/conf/nginx.conf
 	sudo mkdir $lc_nginx_loc/conf/lancache
-	sudo mkdir $lc_nginx_loc/conf/vhosts_enabled/
+	sudo mkdir $lc_nginx_loc/conf/vhosts-enabled/
 	sudo cp $lc_dl_dir/lancache/conf/lancache/* $lc_nginx_loc/conf/lancache
-	sudo cp $lc_dl_dir/lancache/conf/vhosts-enabled/*.conf $lc_nginx_loc/conf/vhosts_enabled/
+	sudo cp $lc_dl_dir/lancache/conf/vhosts-enabled/*.conf $lc_nginx_loc/conf/vhosts-enabled/
 fi
 
 ## Checking if the Limits of the system are changed
@@ -344,7 +344,7 @@ sed -i 's|lc-host-netmask|'$lc_eth_netmask'|g' $lc_base_folder/temp/interfaces
 sed -i 's|lc-host-vint|'$lc_eth_int'|g' $lc_base_folder/temp/interfaces
 
 ## Change the Proxy Bind in Lancache Configs
-sudo sed -i 's|lc-host-proxybind|'$lc_ip'|g' $lc_nginx_loc/conf/vhosts_enabled/*.conf
+sudo sed -i 's|lc-host-proxybind|'$lc_ip'|g' $lc_nginx_loc/conf/vhosts-enabled/*.conf
 
 ## Copy The init.d file over to /etc/init.d/
 if [ ! -f "/etc/init.d/lancache" ]; then
