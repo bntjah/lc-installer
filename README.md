@@ -4,10 +4,10 @@ lancache installer script
 This script has been tested under Debian 8.6 amd64.
 
     1) git clone -b master --recursive http://github.com/bntjah/lc-installer/
-    3) cd lc-installer
-	2) chmod +x installer.sh
-	3) ./installer.sh
-	4) Reboot your system
+    2) cd lc-installer
+	3) chmod +x installer.sh
+	4) ./installer.sh
+	5) Reboot your system
 	
 Notes:
 
