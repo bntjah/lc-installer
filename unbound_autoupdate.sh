@@ -94,7 +94,6 @@
 	if [ -d "$lc_base_folder/tmp_ssh" ]; then
 		rm -rf $lc_base_folder/tmp_ssh
 	fi
-
-## Restart DNS Service
-## Should come here; still wip
 	
+## Restart DNS Service on the remote DNS
+        ssh -t $lc_dns_uname@$lc_dns_ip "sudo service unbound restart"
