@@ -1,7 +1,7 @@
 #!/bin/bash
 ## DNS Related Settings
-	lc_dns_ip=192.168.1.236
-	lc_dns_uname=gvw
+	lc_dns_ip=dnsip
+	lc_dns_uname=username_to_connect_as
 	lc_unbound_loc=/etc/unbound
 
 ## Other variables
