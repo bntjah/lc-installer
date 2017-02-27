@@ -110,6 +110,9 @@ lc_incr_tera=$((lc_ip_p4+10))
 lc_ip_tera=$lc_ip_p1.$lc_ip_p2.$lc_ip_p3.$lc_incr_tera
 lc_incr_wargaming=$((lc_ip_p4+11))
 lc_ip_wargaming=$lc_ip_p1.$lc_ip_p2.$lc_ip_p3.$lc_incr_wargaming
+lc_incr_uplay=$((lc_ip_p4+12))
+lc_ip_wargaming=$lc_ip_p1.$lc_ip_p2.$lc_ip_p3.$lc_incr_uplay
+
 
 ## Put IP's in the log file
 echo [ lc_date ] Information !!! >>$lc_base_folder/logs/$lc_ip_logfile
@@ -128,6 +131,7 @@ echo Riot: $lc_ip_riot >>$lc_base_folder/logs/$lc_ip_logfile
 echo Steam: $lc_ip_steam >>$lc_base_folder/logs/$lc_ip_logfile
 echo Sony: $lc_ip_sony >>$lc_base_folder/logs/$lc_ip_logfile
 echo Tera: $lc_ip_tera >>$lc_base_folder/logs/$lc_ip_logfile
+echo Ubisoft: $lc_ip_uplay >>$lc_base_folder/logs/$lc_ip_logfile
 echo Wargaming: $lc_ip_wargaming >>$lc_base_folder/logs/$lc_ip_logfile
 
 ## Check if the Temp Folder Exists
@@ -161,6 +165,7 @@ sudo mkdir -p $lc_srv_loc/data/wargaming/
 sudo mkdir -p $lc_srv_loc/data/tera/
 sudo mkdir -p $lc_srv_loc/data/arenanetworks/
 sudo mkdir -p $lc_srv_loc/data/gog/
+sudo mkdir -p $lc_srv_loc/data/ubisoft
 sudo mkdir -p $lc_srv_loc/logs/
 sudo mkdir -p $lc_srv_loc/logs/Errors
 sudo mkdir -p $lc_srv_loc/logs/Keys
@@ -304,6 +309,7 @@ sed -i 's|lc-host-steam|'$lc_ip_steam'|g' $lc_base_folder/temp/unbound/unbound.c
 sed -i 's|lc-host-sony|'$lc_ip_sony'|g' $lc_base_folder/temp/unbound/unbound.conf
 sed -i 's|lc-host-tera|'$lc_ip_tera'|g' $lc_base_folder/temp/unbound/unbound.conf
 sed -i 's|lc-host-wargaming|'$lc_ip_wargaming'|g' $lc_base_folder/temp/unbound/unbound.conf
+sed -i 's|lc-host-uplay|'$lc_ip_uplay'|g' $lc_base_folder/temp/unbound/unbound.conf
 
 sudo cp $lc_base_folder/temp/unbound/unbound.conf /etc/unbound/unbound.conf
 
@@ -324,6 +330,7 @@ sed -i 's|lc-host-riot|'$lc_ip_riot'|g' $lc_base_folder/temp/hosts
 sed -i 's|lc-host-steam|'$lc_ip_steam'|g' $lc_base_folder/temp/hosts
 sed -i 's|lc-host-sony|'$lc_ip_sony'|g' $lc_base_folder/temp/hosts
 sed -i 's|lc-host-tera|'$lc_ip_tera'|g' $lc_base_folder/temp/hosts
+sed -i 's|lc-host-uplay|'$lc_ip_uplay'|g' $lc_base_folder/temp/hosts
 sed -i 's|lc-host-wargaming|'$lc_ip_wargaming'|g' $lc_base_folder/temp/hosts
 
 ## Make the Necessary Changes For The New Interfaces File
@@ -339,6 +346,7 @@ sed -i 's|lc-host-riot|'$lc_ip_riot'|g' $lc_base_folder/temp/interfaces
 sed -i 's|lc-host-steam|'$lc_ip_steam'|g' $lc_base_folder/temp/interfaces
 sed -i 's|lc-host-sony|'$lc_ip_sony'|g' $lc_base_folder/temp/interfaces
 sed -i 's|lc-host-tera|'$lc_ip_tera'|g' $lc_base_folder/temp/interfaces
+sed -i 's|lc-host-uplay|'$lc_ip_uplay'|g' $lc_base_folder/temp/interfaces
 sed -i 's|lc-host-wargaming|'$lc_ip_wargaming'|g' $lc_base_folder/temp/interfaces
 sed -i 's|lc-host-netmask|'$lc_eth_netmask'|g' $lc_base_folder/temp/interfaces
 sed -i 's|lc-host-vint|'$lc_eth_int'|g' $lc_base_folder/temp/interfaces
