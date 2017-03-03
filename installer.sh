@@ -131,7 +131,7 @@ echo Riot: $lc_ip_riot >>$lc_base_folder/logs/$lc_ip_logfile
 echo Steam: $lc_ip_steam >>$lc_base_folder/logs/$lc_ip_logfile
 echo Sony: $lc_ip_sony >>$lc_base_folder/logs/$lc_ip_logfile
 echo Tera: $lc_ip_tera >>$lc_base_folder/logs/$lc_ip_logfile
-echo Ubisoft: $lc_ip_uplay >>$lc_base_folder/logs/$lc_ip_logfile
+echo Uplay: $lc_ip_uplay >>$lc_base_folder/logs/$lc_ip_logfile
 echo Wargaming: $lc_ip_wargaming >>$lc_base_folder/logs/$lc_ip_logfile
 
 ## Check if the Temp Folder Exists
@@ -165,7 +165,7 @@ sudo mkdir -p $lc_srv_loc/data/wargaming/
 sudo mkdir -p $lc_srv_loc/data/tera/
 sudo mkdir -p $lc_srv_loc/data/arenanetworks/
 sudo mkdir -p $lc_srv_loc/data/gog/
-sudo mkdir -p $lc_srv_loc/data/ubisoft
+sudo mkdir -p $lc_srv_loc/data/uplay
 sudo mkdir -p $lc_srv_loc/logs/
 sudo mkdir -p $lc_srv_loc/logs/Errors
 sudo mkdir -p $lc_srv_loc/logs/Keys
