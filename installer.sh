@@ -111,7 +111,7 @@ lc_ip_tera=$lc_ip_p1.$lc_ip_p2.$lc_ip_p3.$lc_incr_tera
 lc_incr_wargaming=$((lc_ip_p4+11))
 lc_ip_wargaming=$lc_ip_p1.$lc_ip_p2.$lc_ip_p3.$lc_incr_wargaming
 lc_incr_uplay=$((lc_ip_p4+12))
-lc_ip_wargaming=$lc_ip_p1.$lc_ip_p2.$lc_ip_p3.$lc_incr_uplay
+lc_ip_uplay=$lc_ip_p1.$lc_ip_p2.$lc_ip_p3.$lc_incr_uplay
 
 
 ## Put IP's in the log file
@@ -379,13 +379,13 @@ sudo cp $lc_base_folder/temp/hosts /etc/hosts
 #	fi
 #fi
 
-if [ -f "/etc/network/interfaces" ]; then
-	cat /etc/network/interfaces | grep $lc_ip_steam>/dev/null
-	if [ $? != 0 ]; then
+#if [ -f "/etc/network/interfaces" ]; then
+#	cat /etc/network/interfaces | grep $lc_ip_steam>/dev/null
+#	if [ $? != 0 ]; then
 		sudo mv /etc/network/interfaces /etc/network/interfaces.bak
 		sudo mv $lc_base_folder/temp/interfaces /etc/network/interfaces
-	fi
-fi
+#	fi
+#fi
 
 # Disabling IPv6
 sudo echo "net.ipv6.conf.all.disable_ipv6=1" >/etc/sysctl.d/disable-ipv6.conf
