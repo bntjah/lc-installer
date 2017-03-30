@@ -1,12 +1,12 @@
 #!/bin/bash
-## Other variables
+## Set variables
 lc_dl_dir=$( pwd )
-lc_nginx_url=http://nginx.org/download/nginx-1.11.8.tar.gz
+lc_nginx_version=1.11.12
+lc_nginx_url=http://nginx.org/download/nginx-$lc_nginx_version.tar.gz
 lc_base_folder=/usr/local/lancache
 lc_nginx_loc=/usr/local/nginx
 lc_sniproxy_bin=/usr/local/sbin/sniproxy
 lc_srv_loc=/srv/lancache
-#lc_bind_loc=/etc/bind
 lc_unbound_loc=/etc/unbound
 lc_date=$( date +"%m-%d-%y %T" )
 lc_hn=$( hostname )
@@ -17,18 +17,11 @@ lc_ip_googledns2=8.8.4.4
 lc_ip_logfile=ip.log
 lc_ip_gw=$( /sbin/ip route | awk '/default/ { print $3 }' )
 
-## Check if the necessary folders exist for this to work
-if [ ! -d "$lc_base_folder/config" ]; then
-	sudo mkdir -p $lc_base_folder/config/
-fi
-
-if [ ! -d "$lc_base_folder/data" ]; then
-	sudo mkdir -p $lc_base_folder/data/
-fi
-
-if [ ! -d "$lc_base_folder/logs" ]; then
-	sudo mkdir -p $lc_base_folder/logs/
-fi
+## Create the necessary folders
+sudo mkdir -p $lc_base_folder/config/
+sudo mkdir -p $lc_base_folder/data/
+sudo mkdir -p $lc_base_folder/logs/
+sudo mkdir -p $lc_base_folder/temp
 
 sudo chown -R $USER:$USER $lc_base_folder
 
@@ -63,7 +56,7 @@ if [ ! -f "$lc_base_folder/config/interface_used" ]; then
 	if [ $? != 0 ]; then
 		echo [ lc_date ] !!! ERROR !!! >>$lc_base_folder/logs/$lc_ip_logfile
 		echo Sorry you have entered a wrong interface...
-		echo 
+		echo
 		echo The user $USER entered the following interface: $lc_input_interface >>$lc_base_folder/logs/$lc_int_log
 		echo Wich doesnt exist >>$lc_base_folder/logs/$lc_int_log
 		echo
@@ -88,28 +81,39 @@ lc_ip_p3=$(echo ${lc_ip} | tr "." " " | awk '{ print $3 }')
 lc_ip_p4=$(echo ${lc_ip} | tr "." " " | awk '{ print $4 }')
 
 ## Increment the last IP digit for every Game
-lc_incr_arena=$((lc_ip_p4+1))
-lc_ip_arena=$lc_ip_p1.$lc_ip_p2.$lc_ip_p3.$lc_incr_arena
-lc_incr_blizzard=$((lc_ip_p4+2))
+lc_incr_steam=$((lc_ip_p4+1))
+lc_ip_steam=$lc_ip_p1.$lc_ip_p2.$lc_ip_p3.$lc_incr_steam
+
+lc_incr_riot=$((lc_ip_p4+2))
+lc_ip_riot=$lc_ip_p1.$lc_ip_p2.$lc_ip_p3.$lc_incr_riot
+
+lc_incr_blizzard=$((lc_ip_p4+3))
 lc_ip_blizzard=$lc_ip_p1.$lc_ip_p2.$lc_ip_p3.$lc_incr_blizzard
-lc_incr_gog=$((lc_ip_p4+3))
-lc_ip_gog=$lc_ip_p1.$lc_ip_p2.$lc_ip_p3.$lc_incr_gog
+
 lc_incr_hirez=$((lc_ip_p4+4))
 lc_ip_hirez=$lc_ip_p1.$lc_ip_p2.$lc_ip_p3.$lc_incr_hirez
-lc_incr_microsoft=$((lc_ip_p4+5))
-lc_ip_microsoft=$lc_ip_p1.$lc_ip_p2.$lc_ip_p3.$lc_incr_microsoft
-lc_incr_origin=$((lc_ip_p4+6))
+
+lc_incr_origin=$((lc_ip_p4+5))
 lc_ip_origin=$lc_ip_p1.$lc_ip_p2.$lc_ip_p3.$lc_incr_origin
-lc_incr_riot=$((lc_ip_p4+7))
-lc_ip_riot=$lc_ip_p1.$lc_ip_p2.$lc_ip_p3.$lc_incr_riot
-lc_incr_steam=$((lc_ip_p4+8))
-lc_ip_steam=$lc_ip_p1.$lc_ip_p2.$lc_ip_p3.$lc_incr_steam
-lc_incr_sony=$((lc_ip_p4+9))
+
+lc_incr_sony=$((lc_ip_p4+6))
 lc_ip_sony=$lc_ip_p1.$lc_ip_p2.$lc_ip_p3.$lc_incr_sony
-lc_incr_tera=$((lc_ip_p4+10))
+
+lc_incr_microsoft=$((lc_ip_p4+7))
+lc_ip_microsoft=$lc_ip_p1.$lc_ip_p2.$lc_ip_p3.$lc_incr_microsoft
+
+lc_incr_tera=$((lc_ip_p4+8))
 lc_ip_tera=$lc_ip_p1.$lc_ip_p2.$lc_ip_p3.$lc_incr_tera
+
+lc_incr_gog=$((lc_ip_p4+9))
+lc_ip_gog=$lc_ip_p1.$lc_ip_p2.$lc_ip_p3.$lc_incr_gog
+
+lc_incr_arena=$((lc_ip_p4+10))
+lc_ip_arena=$lc_ip_p1.$lc_ip_p2.$lc_ip_p3.$lc_incr_arena
+
 lc_incr_wargaming=$((lc_ip_p4+11))
 lc_ip_wargaming=$lc_ip_p1.$lc_ip_p2.$lc_ip_p3.$lc_incr_wargaming
+
 lc_incr_uplay=$((lc_ip_p4+12))
 lc_ip_uplay=$lc_ip_p1.$lc_ip_p2.$lc_ip_p3.$lc_incr_uplay
 
@@ -133,12 +137,6 @@ echo Sony: $lc_ip_sony >>$lc_base_folder/logs/$lc_ip_logfile
 echo Tera: $lc_ip_tera >>$lc_base_folder/logs/$lc_ip_logfile
 echo Uplay: $lc_ip_uplay >>$lc_base_folder/logs/$lc_ip_logfile
 echo Wargaming: $lc_ip_wargaming >>$lc_base_folder/logs/$lc_ip_logfile
-
-## Check if the Temp Folder Exists
-## Normally this should not exist
-if [ ! -d "$lc_base_folder/temp" ]; then
-mkdir -p $lc_base_folder/temp
-fi
 
 ## Check if the Lancache user exists if not creating the user
 if id -u "lancache" >/dev/null 2>&1; then
@@ -185,11 +183,6 @@ if [ ! -f "/usr/bin/git" ]; then
 	sudo apt-get install git -y >/dev/null
 fi
 
-## Check if BIND9 is installed and if its not installing it
-#if [ ! -d "$lc_bind_loc" ]; then
-#	sudo apt-get install bind9 -y>/dev/null
-#fi
-
 ## Check if Unbound is installed and if its not installing it
 if [ ! -d "$lc_unbound_loc" ]; then
 	sudo apt-get install unbound -y>/dev/null
@@ -201,96 +194,55 @@ if [ ! -f "/usr/bin/make" ]; then
 fi
 
 ## Update lancache config folder from github
-#if [ ! -f "$lc_dl_dir/lancache/README.md" ]; then
 cd $lc_dl_dir
 git pull --recurse-submodules
 git submodule update --remote --recursive
-#fi
 
 ## Download and extract nginx if not yet done
-if [ ! -d "$lc_base_folder/data/nginx-1.11.8" ]; then
+if [ ! -d "$lc_base_folder/data/nginx-".$lc_nginx_version ]; then
 	cd $lc_base_folder/data
 	curl $lc_nginx_url | tar zx>/dev/null
 fi
 
-## Check if nginx is installed and if its not installing it
-if [ ! -d "$lc_nginx_loc" ]; then
-	cd $lc_base_folder/data/nginx-1.11.8
-	sudo apt-get install libpcre3 libpcre3-dev zlib1g-dev libreadline-dev libncurses5-dev libssl-dev -y
-	./configure --with-http_ssl_module --with-http_slice_module
-	sudo make
-	sudo make install
-fi
+echo "Getting ready to install nginx"
+sleep 3
 
-## Check if sniproxy is installed and if its not installing it
-if [ ! -f "$lc_sniproxy_bin" ]; then
-	cd $lc_base_folder/data/
-	sudo apt-get install libudns0 libudns-dev libev4 libev-dev devscripts automake libtool autoconf autotools-dev cdbs debhelper dh-autoreconf dpkg-dev gettext  pkg-config fakeroot -y
-    git clone https://github.com/dlundquist/sniproxy
-    cd sniproxy
-    ./autogen.sh
-	./configure
-	sudo make
-	sudo make install
-    sudo curl https://raw.githubusercontent.com/OpenSourceLAN/origin-docker/master/sniproxy/sniproxy.conf -o /etc/sniproxy.conf
-fi
+## Install nginx
+cd $lc_base_folder/data/nginx-$lc_nginx_version
+sudo apt-get install libpcre3 libpcre3-dev zlib1g-dev libreadline-dev libncurses5-dev libssl-dev -y
+./configure --with-http_ssl_module --with-http_slice_module
+sudo make
+sudo make install
+
+echo "Getting ready to install sniproxy"
+sleep 3
+
+## Install sniproxy
+cd $lc_base_folder/data/
+sudo apt-get install libudns0 libudns-dev libev4 libev-dev devscripts automake libtool autoconf autotools-dev cdbs debhelper dh-autoreconf dpkg-dev gettext  pkg-config fakeroot -y
+rm -Rf sniproxy
+git clone https://github.com/dlundquist/sniproxy
+cd sniproxy
+./autogen.sh
+./configure
+sudo make
+sudo make install
+sudo curl https://raw.githubusercontent.com/OpenSourceLAN/origin-docker/master/sniproxy/sniproxy.conf -o /etc/sniproxy.conf
 
 ## Doing the necessary changes for Lancache
-if [ ! -d "$lc_nginx_loc/conf/lancache" ]; then
-	cd $lc_dl_dir/lancache/conf
-	sudo mv $lc_nginx_loc/conf/nginx.conf $lc_nginx_loc/conf/nginx.conf.bak
-	sudo cp $lc_dl_dir/lancache/conf/nginx.conf $lc_nginx_loc/conf/nginx.conf
-	sudo mkdir $lc_nginx_loc/conf/lancache
-	sudo mkdir $lc_nginx_loc/conf/vhosts-enabled/
-	sudo cp $lc_dl_dir/lancache/conf/lancache/* $lc_nginx_loc/conf/lancache
-	sudo cp $lc_dl_dir/lancache/conf/vhosts-enabled/*.conf $lc_nginx_loc/conf/vhosts-enabled/
+cd $lc_dl_dir/lancache/conf
+sudo mv $lc_nginx_loc/conf/nginx.conf $lc_nginx_loc/conf/nginx.conf.bak
+sudo cp $lc_dl_dir/lancache/conf/nginx.conf $lc_nginx_loc/conf/nginx.conf
+sudo mkdir -p $lc_nginx_loc/conf/lancache
+sudo mkdir -p $lc_nginx_loc/conf/vhosts-enabled/
+sudo cp $lc_dl_dir/lancache/conf/lancache/* $lc_nginx_loc/conf/lancache
+sudo cp $lc_dl_dir/lancache/conf/vhosts-enabled/*.conf $lc_nginx_loc/conf/vhosts-enabled/
+
+## Change Limits of the system for Lancache to work without issues
+if [ -f "$lc_dl_dir/lancache/limits.conf" ]; then
+	sudo mv /etc/security/limits.conf /etc/security/limits.conf.bak
+	sudo cp $lc_dl_dir/lancache/limits.conf /etc/security/limits.conf
 fi
-
-## Checking if the Limits of the system are changed
-## for Lancache to work without issues
-if [ -f "/etc/security/limits.conf" ]; then
-	cat /etc/security/limits.conf > /dev/null | grep 65536
-	if [ $? != 0 ]; then
-		sudo mv /etc/security/limits.conf /etc/security/limits.conf.bak
-		sudo cp $lc_dl_dir/lancache/limits.conf /etc/security/limits.conf
-	fi
-fi
-
-## Preparing Bind Configs
-#if [ ! -f "/etc/bind/named.conf.local.lan-cache" ]; then
-#	mkdir -p $lc_base_folder/temp/bind
-#	cp $lc_dl_dir/lancache/bind/db.lancache.* $lc_base_folder/temp/bind
-#	sed -i 's|lc-hostname|'$lc_hn'|g' $lc_base_folder/temp/bind/db.lancache.*
-#	sed -i 's|lc-host-proxybind|'$lc_ip'|g' $lc_base_folder/temp/bind/db.lancache.*
-#	sed -i 's|lc-host-gw|'$lc_ip_gw'|g' $lc_base_folder/temp/bind/db.lancache.*
-#	sed -i 's|lc-host-arena|'$lc_ip_arena'|g' $lc_base_folder/temp/bind/db.lancache.*
-#	sed -i 's|lc-host-blizzard|'$lc_ip_blizzard'|g' $lc_base_folder/temp/bind/db.lancache.*
-#	sed -i 's|lc-host-hirez|'$lc_ip_hirez'|g' $lc_base_folder/temp/bind/db.lancache.*
-#	sed -i 's|lc-host-gog|'$lc_ip_gog'|g' $lc_base_folder/temp/bind/db.lancache.*
-#	sed -i 's|lc-host-microsoft|'$lc_ip_microsoft'|g' $lc_base_folder/temp/bind/db.lancache.*
-#	sed -i 's|lc-host-origin|'$lc_ip_origin'|g' $lc_base_folder/temp/bind/db.lancache.*
-#	sed -i 's|lc-host-riot|'$lc_ip_riot'|g' $lc_base_folder/temp/bind/db.lancache.*
-#	sed -i 's|lc-host-steam|'$lc_ip_steam'|g' $lc_base_folder/temp/bind/db.lancache.*
-#	sed -i 's|lc-host-sony|'$lc_ip_sony'|g' $lc_base_folder/temp/bind/db.lancache.*
-#	sed -i 's|lc-host-tera|'$lc_ip_tera'|g' $lc_base_folder/temp/bind/db.lancache.*
-#	sed -i 's|lc-host-wargaming|'$lc_ip_wargaming'|g' $lc_base_folder/temp/bind/db.lancache.*
-#	sudo cp $lc_base_folder/temp/bind/db.lancache.* $lc_bind_loc/
-#	sudo service bind9 start
-#fi
-
-## Preparing Bind For The Changes to Come
-#if [ -f "/etc/bind/named.conf" ]; then
-#	cat /etc/bind/named.conf | grep lan-cache>/dev/null
-#	if [ $? != 0 ]; then
-#		sudo service bind9 stop
-#		sudo mv /etc/bind/named.conf /etc/bind/named.conf.bak
-#		if [ ! -d "$lc_base_folder/temp/bind" ]; then
-#
-#		sudo cp $lc_dl_dir/lancache/bind/named.conf.* $lc_bind_loc/
-#		sudo cp $lc_dl_dir/lancache/bind/named.conf $lc_bind_loc/
-#		sudo service bind9 start
-#	fi
-#fi
 
 ## Preparing configuration for unbound
 sudo mkdir -p /$lc_base_folder/temp/unbound/
@@ -355,37 +307,27 @@ sed -i 's|lc-host-vint|'$lc_eth_int'|g' $lc_base_folder/temp/interfaces
 sudo sed -i 's|lc-host-proxybind|'$lc_ip'|g' $lc_nginx_loc/conf/vhosts-enabled/*.conf
 
 ## Copy The init.d file over to /etc/init.d/
-if [ ! -f "/etc/init.d/lancache" ]; then
-	sudo cp $lc_dl_dir/lancache/init.d/lancache /etc/init.d/lancache
-	sudo chmod +x /etc/init.d/lancache
-	sudo update-rc.d lancache defaults
-fi
+sudo cp $lc_dl_dir/lancache/init.d/lancache /etc/init.d/lancache
+sudo chmod +x /etc/init.d/lancache
+sudo update-rc.d lancache defaults
 
 ## Autostarting sniproxy
-if [ ! -f "/etc/init.d/sniproxy" ]; then
-	sudo cp $lc_base_folder/data/sniproxy/debian/init.d /etc/init.d/sniproxy
-	sudo chmod +x /etc/init.d/sniproxy
-	sudo update-rc.d sniproxy defaults
-	sudo sed -i 's|'/usr/sbin'|'/usr/local/sbin'|g' /etc/init.d/sniproxy
-	sudo echo 'DAEMON_ARGS="-c /etc/sniproxy.conf"' > /etc/default/sniproxy
+sudo cp $lc_base_folder/data/sniproxy/debian/init.d /etc/init.d/sniproxy
+sudo chmod +x /etc/init.d/sniproxy
+sudo update-rc.d sniproxy defaults
+sudo sed -i 's|'/usr/sbin'|'/usr/local/sbin'|g' /etc/init.d/sniproxy
+sudo echo 'DAEMON_ARGS="-c /etc/sniproxy.conf"' > /etc/default/sniproxy
+
+## Moving Base Files to The Correct Locations
+if [ -f "$lc_base_folder/temp/hosts" ]; then
+	sudo mv /etc/hosts /etc/hosts.bak
+	sudo cp $lc_base_folder/temp/hosts /etc/hosts
 fi
 
-## Moving Base Files to The Correct Locations if not already installed
-#if [ -f "/etc/hosts" ]; then
-#	cat /etc/hosts | grep lancache-*>/dev/null
-#	if [ $? != 0 ]; then
-sudo mv /etc/hosts /etc/hosts.bak
-sudo cp $lc_base_folder/temp/hosts /etc/hosts
-#	fi
-#fi
-
-#if [ -f "/etc/network/interfaces" ]; then
-#	cat /etc/network/interfaces | grep $lc_ip_steam>/dev/null
-#	if [ $? != 0 ]; then
-		sudo mv /etc/network/interfaces /etc/network/interfaces.bak
-		sudo mv $lc_base_folder/temp/interfaces /etc/network/interfaces
-#	fi
-#fi
+if [ -f "$lc_base_folder/temp/interfaces" ]; then
+	sudo mv /etc/network/interfaces /etc/network/interfaces.bak
+	sudo mv $lc_base_folder/temp/interfaces /etc/network/interfaces
+fi
 
 # Disabling IPv6
 sudo echo "net.ipv6.conf.all.disable_ipv6=1" >/etc/sysctl.d/disable-ipv6.conf
@@ -407,7 +349,7 @@ sudo echo "nameserver $lc_ip_googledns2" >> /etc/resolv.conf
 sudo apt-get install nload iftop tcpdump tshark -y
 
 ## Clean up temp folder
-#sudo rm -rf $lc_base_folder/temp
+sudo rm -rf $lc_base_folder/temp
 
 echo Please reboot your system for the changes to take effect.
 exit 0
