@@ -2,7 +2,7 @@ lancache installer script
 =========================
 
 ## Short Changelog
-* 12-30-2016 Initial Creation
+* 12-30-2016 Initial Creation, I think ;-)
 * 3-30-2017 TravisPK
     * Removed old bind stuff
     * Rearranged IP's to match Interface order
