@@ -10,7 +10,8 @@ lancache installer script
     * Updated to Nginx 1.11.12
     * Made a version variable for nginix
     * Cleaned up various things and bug fixes
-    * This script has been tested under Debian 8.6 amd64.
+
+This script has been tested under Debian 8.6 amd64.
 
     1) git clone -b master --recursive http://github.com/bntjah/lc-installer/
     2) cd lc-installer
