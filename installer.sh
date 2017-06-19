@@ -117,6 +117,9 @@ lc_ip_wargaming=$lc_ip_p1.$lc_ip_p2.$lc_ip_p3.$lc_incr_wargaming
 lc_incr_uplay=$((lc_ip_p4+12))
 lc_ip_uplay=$lc_ip_p1.$lc_ip_p2.$lc_ip_p3.$lc_incr_uplay
 
+lc_incr_apple=$((lc_ip_p4+13))
+lc_ip_apple=$lc_ip_p1.$lc_ip_p2.$lc_ip_p3.$lc_incr_apple
+
 
 ## Put IP's in the log file
 echo [ lc_date ] Information !!! >>$lc_base_folder/logs/$lc_ip_logfile
@@ -126,6 +129,7 @@ echo IP for $lc_eth_int is $lc_ip_p1.$lc_ip_p2.$lc_ip_p3.$lc_ip_p4 >>$lc_base_fo
 echo Netmask for $lc_eth_int is $lc_eth_netmask >>$lc_base_folder/logs/$lc_ip_logfile
 echo >>$lc_base_folder/logs/$lc_ip_logfile
 echo Arena: $lc_ip_arena >>$lc_base_folder/logs/$lc_ip_logfile
+echo Apple: $lc_ip_apple >>$lc_base_folder/logs/$lc_ip_logfile
 echo Blizzard: $lc_ip_blizzard >>$lc_base_folder/logs/$lc_ip_logfile
 echo GOG: $lc_ip_gog >>$lc_base_folder/logs/$lc_ip_logfile
 echo Hirez: $lc_ip_hirez >>$lc_base_folder/logs/$lc_ip_logfile
@@ -156,6 +160,7 @@ sudo mkdir -p $lc_srv_loc/data/other/
 sudo mkdir -p $lc_srv_loc/data/tmp/
 sudo mkdir -p $lc_srv_loc/data/hirez/
 sudo mkdir -p $lc_srv_loc/data/origin/
+sudo mkdir -p $lc_srv_loc/data/osx
 sudo mkdir -p $lc_srv_loc/data/riot/
 sudo mkdir -p $lc_srv_loc/data/sony/
 sudo mkdir -p $lc_srv_loc/data/steam/
@@ -251,6 +256,7 @@ sed -i 's|lc-host-ip|'$lc_ip'|g' $lc_base_folder/temp/unbound/unbound.conf
 sed -i 's|lc-host-proxybind|'$lc_ip'|g' $lc_base_folder/temp/unbound/unbound.conf
 sed -i 's|lc-host-gw|'$lc_ip_gw'|g' $lc_base_folder/temp/unbound/unbound.conf
 sed -i 's|lc-host-arena|'$lc_ip_arena'|g' $lc_base_folder/temp/unbound/unbound.conf
+sed -i 's|lc-host-apple|'$lc_ip_apple'|g' $lc_base_folder/temp/unbound/unbound.conf
 sed -i 's|lc-host-blizzard|'$lc_ip_blizzard'|g' $lc_base_folder/temp/unbound/unbound.conf
 sed -i 's|lc-host-hirez|'$lc_ip_hirez'|g' $lc_base_folder/temp/unbound/unbound.conf
 sed -i 's|lc-host-gog|'$lc_ip_gog'|g' $lc_base_folder/temp/unbound/unbound.conf
@@ -273,6 +279,7 @@ cp $lc_dl_dir/lancache/interfaces $lc_base_folder/temp/interfaces
 sed -i 's|lc-hostname|'$lc_hn'|g' $lc_base_folder/temp/hosts
 sed -i 's|lc-host-proxybind|'$lc_ip'|g' $lc_base_folder/temp/hosts
 sed -i 's|lc-host-arena|'$lc_ip_arena'|g' $lc_base_folder/temp/hosts
+sed -i 's|lc-host-apple|'$lc_ip_apple'|g' $lc_base_folder/temp/hosts
 sed -i 's|lc-host-blizzard|'$lc_ip_blizzard'|g' $lc_base_folder/temp/hosts
 sed -i 's|lc-host-hirez|'$lc_ip_hirez'|g' $lc_base_folder/temp/hosts
 sed -i 's|lc-host-gog|'$lc_ip_gog'|g' $lc_base_folder/temp/hosts
@@ -289,6 +296,7 @@ sed -i 's|lc-host-wargaming|'$lc_ip_wargaming'|g' $lc_base_folder/temp/hosts
 sed -i 's|lc-host-ip|'$lc_ip'|g' $lc_base_folder/temp/interfaces
 sed -i 's|lc-host-gateway|'$lc_ip_gw'|g' $lc_base_folder/temp/interfaces
 sed -i 's|lc-host-arena|'$lc_ip_arena'|g' $lc_base_folder/temp/interfaces
+sed -i 's|lc-host-apple|'$lc_ip_apple'|g' $lc_base_folder/temp/interfaces
 sed -i 's|lc-host-blizzard|'$lc_ip_blizzard'|g' $lc_base_folder/temp/interfaces
 sed -i 's|lc-host-hirez|'$lc_ip_hirez'|g' $lc_base_folder/temp/interfaces
 sed -i 's|lc-host-gog|'$lc_ip_gog'|g' $lc_base_folder/temp/interfaces
