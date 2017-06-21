@@ -215,7 +215,7 @@ sleep 3
 ## Install nginx
 cd $lc_base_folder/data/nginx-$lc_nginx_version
 sudo apt-get install libpcre3 libpcre3-dev zlib1g-dev libreadline-dev libncurses5-dev libssl-dev -y
-./configure --with-http_ssl_module --with-http_slice_module
+./configure --with-http_sub_module --with-http_slice_module --with-http_ssl_module --with-file-aio --with-threads
 sudo make
 sudo make install
 
