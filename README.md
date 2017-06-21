@@ -10,6 +10,8 @@ lancache installer script
     * Updated to Nginx 1.11.12
     * Made a version variable for nginix
     * Cleaned up various things and bug fixes
+* 6-21-2017 bn_
+    * Updated installer as bug reported in Issue #14
 
 This script has been tested under Debian 8.6 amd64.
 
