@@ -1,7 +1,7 @@
 #!/bin/bash
 ## Set variables
 lc_dl_dir=$( pwd )
-lc_nginx_version=1.11.12
+lc_nginx_version=1.12.1
 lc_nginx_url=http://nginx.org/download/nginx-$lc_nginx_version.tar.gz
 lc_base_folder=/usr/local/lancache
 lc_nginx_loc=/usr/local/nginx
