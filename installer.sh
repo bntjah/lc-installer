@@ -120,6 +120,9 @@ lc_ip_uplay=$lc_ip_p1.$lc_ip_p2.$lc_ip_p3.$lc_incr_uplay
 lc_incr_apple=$((lc_ip_p4+13))
 lc_ip_apple=$lc_ip_p1.$lc_ip_p2.$lc_ip_p3.$lc_incr_apple
 
+lc_incr_glyph=$((lc_ip_p4+14))
+lc_ip_glyph=$lc_ip_p1.$lc_ip_p2.$lc_ip_p3.$lc_incr_glyph
+
 
 ## Put IP's in the log file
 echo [ lc_date ] Information !!! >>$lc_base_folder/logs/$lc_ip_logfile
@@ -131,6 +134,7 @@ echo >>$lc_base_folder/logs/$lc_ip_logfile
 echo Arena: $lc_ip_arena >>$lc_base_folder/logs/$lc_ip_logfile
 echo Apple: $lc_ip_apple >>$lc_base_folder/logs/$lc_ip_logfile
 echo Blizzard: $lc_ip_blizzard >>$lc_base_folder/logs/$lc_ip_logfile
+echo GOG: $lc_ip_glyph >>$lc_base_folder/logs/$lc_ip_logfile
 echo GOG: $lc_ip_gog >>$lc_base_folder/logs/$lc_ip_logfile
 echo Hirez: $lc_ip_hirez >>$lc_base_folder/logs/$lc_ip_logfile
 echo Microsoft: $lc_ip_microsoft >>$lc_base_folder/logs/$lc_ip_logfile
@@ -260,6 +264,7 @@ sed -i 's|lc-host-apple|'$lc_ip_apple'|g' $lc_base_folder/temp/unbound/unbound.c
 sed -i 's|lc-host-blizzard|'$lc_ip_blizzard'|g' $lc_base_folder/temp/unbound/unbound.conf
 sed -i 's|lc-host-hirez|'$lc_ip_hirez'|g' $lc_base_folder/temp/unbound/unbound.conf
 sed -i 's|lc-host-gog|'$lc_ip_gog'|g' $lc_base_folder/temp/unbound/unbound.conf
+sed -i 's|lc-host-glyph|'$lc_ip_glyph'|g' $lc_base_folder/temp/unbound/unbound.conf
 sed -i 's|lc-host-microsoft|'$lc_ip_microsoft'|g' $lc_base_folder/temp/unbound/unbound.conf
 sed -i 's|lc-host-origin|'$lc_ip_origin'|g' $lc_base_folder/temp/unbound/unbound.conf
 sed -i 's|lc-host-riot|'$lc_ip_riot'|g' $lc_base_folder/temp/unbound/unbound.conf
@@ -282,6 +287,7 @@ sed -i 's|lc-host-arena|'$lc_ip_arena'|g' $lc_base_folder/temp/hosts
 sed -i 's|lc-host-apple|'$lc_ip_apple'|g' $lc_base_folder/temp/hosts
 sed -i 's|lc-host-blizzard|'$lc_ip_blizzard'|g' $lc_base_folder/temp/hosts
 sed -i 's|lc-host-hirez|'$lc_ip_hirez'|g' $lc_base_folder/temp/hosts
+sed -i 's|lc-host-glyph|'$lc_ip_glyph'|g' $lc_base_folder/temp/hosts
 sed -i 's|lc-host-gog|'$lc_ip_gog'|g' $lc_base_folder/temp/hosts
 sed -i 's|lc-host-microsoft|'$lc_ip_microsoft'|g' $lc_base_folder/temp/hosts
 sed -i 's|lc-host-origin|'$lc_ip_origin'|g' $lc_base_folder/temp/hosts
@@ -300,6 +306,7 @@ sed -i 's|lc-host-apple|'$lc_ip_apple'|g' $lc_base_folder/temp/interfaces
 sed -i 's|lc-host-blizzard|'$lc_ip_blizzard'|g' $lc_base_folder/temp/interfaces
 sed -i 's|lc-host-hirez|'$lc_ip_hirez'|g' $lc_base_folder/temp/interfaces
 sed -i 's|lc-host-gog|'$lc_ip_gog'|g' $lc_base_folder/temp/interfaces
+sed -i 's|lc-host-glyph|'$lc_ip_glyph'|g' $lc_base_folder/temp/interfaces
 sed -i 's|lc-host-microsoft|'$lc_ip_microsoft'|g' $lc_base_folder/temp/interfaces
 sed -i 's|lc-host-origin|'$lc_ip_origin'|g' $lc_base_folder/temp/interfaces
 sed -i 's|lc-host-riot|'$lc_ip_riot'|g' $lc_base_folder/temp/interfaces
