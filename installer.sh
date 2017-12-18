@@ -2,20 +2,12 @@
 # Root Check
 source Files/Root_Check.sh
 
-## Set variables
-lc_dl_dir=$( pwd )
-lc_nginx_version=1.12.1
-lc_nginx_url=http://nginx.org/download/nginx-$lc_nginx_version.tar.gz
-lc_base_folder=/usr/local/lancache
-lc_nginx_loc=/usr/local/nginx
-lc_sniproxy_bin=/usr/local/sbin/sniproxy
-lc_srv_loc=/srv/lancache
-lc_unbound_loc=/etc/unbound
-lc_date=$( date +"%m-%d-%y %T" )
-lc_hn=$( hostname )
+# Pre Requisites
+source Files/PreReq.sh
 
-## Functions for Fancy Colors
-source Files/functions.sh
+## Set variables
+source Files/Variables.sh
+source Files/ExitCode.sh
 
 ## Find Primary ETH
 source Files/Find_Internet_IP.sh
@@ -25,21 +17,98 @@ clear
 echo "###"
 echo "IPV6"
 echo "###"
-echo
 echo "Disable IPV6? (Yy/Nn): "
 read REPLY
         if [[ $REPLY =~ ^[Yy]$ ]]
                 then
-        source Files/IPV6.sh
+                        source Files/IPV6.sh
         fi
 echo
 echo "###"
 echo "Adding DNS Resolvers for this host"
 echo "###"
+echo "Add Different DNS to this host? (Yy/Nn): "
+read REPLY
+        if [[ $REPLY =~ ^[Yy]$ ]]
+                then
+                        source Files/DNS.sh
+        fi
 echo
-echo "Please Enter The First DNS (IPv4) You Want To Use:"
-read lc_ip_dns1
-source Files/DNSRes.sh $lc_ip_dns1
-echo "Please Enter The Secondary DNS (IPv4) You Want To Use:"
-read lc_ip_dns2
-source Files/DNSRes.sh $lc_ip_dns2
+echo "###"
+echo "System Limits"
+echo "###"
+echo "Change the limits.conf on this host? (Yy/Nn): "
+read REPLY
+        if [[ $REPLY =~ ^[Yy]$ ]]
+                then
+                        source Files/Limits.sh
+        fi
+echo
+echo "###"
+echo "User"
+echo "###"
+echo "Create Seperate Lancache User? (Yy/Nn): "
+read REPLY
+        if [[ $REPLY =~ ^[Yy]$ ]]
+                then
+                        source Files/Userprofile.sh
+        fi
+
+echo
+echo "###"
+echo "NGINX"
+echo "###"
+echo "Install NGINX Through This Script? (Yy/Nn): "
+read REPLY
+        if [[ $REPLY =~ ^[Yy]$ ]]
+                then
+                        source Files/Nginx.sh
+        fi
+
+### Git Clone Lancache
+### Correct to the right folders so rest works
+
+
+echo
+echo "###"
+echo "Unbound"
+echo "###"
+echo "Install Unbound Through This Script and Configure? (Yy/Nn):"
+read REPLY
+        if [[ $REPLY =~ ^[Yy]$ ]]
+                then
+                        source Files/Unbound.sh
+        fi
+
+echo
+echo "###"
+echo "Sniproxy"
+echo "###"
+echo "Install SniProxy Through This Script and Configure? (Yy/Nn):"
+read REPLY
+        if [[ $REPLY =~ ^[Yy]$ ]]
+                then
+                        source Files/Sniproxy.sh
+        fi
+
+echo
+echo "###"
+echo "Init.D Script"
+echo "###"
+echo "Install The Premade Init.D Script? (Yy/Nn):"
+read REPLY
+        if [[ $REPLY =~ ^[Yy]$ ]]
+                then
+                        source Files/InitD.sh
+        fi
+
+echo
+echo "###"
+echo "Monitoring"
+echo "###"
+echo "Install Monitoring Tools (Nload/IFtop)? (Yy/Nn):"
+read REPLY
+        if [[ $REPLY =~ ^[Yy]$ ]]
+                then
+                        source Files/monitoring.sh
+        fi
