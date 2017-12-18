@@ -85,16 +85,11 @@ if [ ! -d "/usr/local/nginx/bin/nginx/" ]; then
                 fi
 
                 echo "Configuring NGINX with the necessary modules"
-                ./configure  --modules-path=$nginx_workdir --with-cc-opt='-I /usr/local/include' --with-ld-opt='-L /usr/local/lib' --conf-path=/usr/local/nginx/nginx.conf --sbin-path=/usr/local/sbin/nginx --pid-path=/var/run/nginx.pid --modules-path=/usr/local/libexec/nginx --with-file-aio --add-module=/usr/portbuild/www/nginx/work/ngx_cache_purge-2.3 --with-http_flv_module --with-http_geoip_module=dynamic --with-http_gzip_static_module --with-http_image_filter_module=dynamic --with-http_mp4_module --add-module=/usr/portbuild/www/nginx/work/nginx-range-cache --with-http_realip_module --with-http_slice_module --with-http_stub_status_module --with-pcre --with-http_v2_module --with-stream=dynamic --with-stream_ssl_module --with-stream_ssl_preread_module --with-http_ssl_module --add-module=/usr/portbuild/www/nginx/work/nginx-push-stream-module-0.5.1 --with-threads
-                if [ "$?"=="0" ]; then
-                        echo_success
-                else
-                        echo_failure
-                fi
-                echo "Making..."
-               make
+                ./configure  --modules-path=$nginx_workdir --with-cc-opt='-I /usr/local/include' --with-ld-opt='-L /usr/local/lib' --conf-path=/usr/local/nginx/nginx.conf --sbin-path=/usr/local/sbin/nginx --pid-path=/var/run/nginx.pid --modules-path=/usr/local/libexec/nginx --with-file-aio --add-module=/usr/portbuild/www/nginx/work/ngx_cache_purge-2.3 --with-http_flv_module --with-http_geoip_module=dynamic --with-http_gzip_static_module --with-http_image_filter_module=dynamic --with-http_mp4_module --add-module=/usr/portbuild/www/nginx/work/nginx-range-cache --with-http_realip_module --with-http_slice_module --with-http_stub_status_module --with-pcre --with-http_v2_module --with-stream=dynamic --with-stream_ssl_module --with-stream_ssl_preread_module --with-http_ssl_module --add-module=/usr/portbuild/www/nginx/work/nginx-push-stream-module-0.5.1 --with-threads >/dev/null
+                echo "Making... Go Grab a coFfee or Redbull..."
+               make >/dev/null
                 echo "Installing..."
-               make install
+               make install >/dev/null
         else
                 echo "There is already a version of NGINX installed"
 fi
