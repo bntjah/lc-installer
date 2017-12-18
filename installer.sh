@@ -10,7 +10,7 @@ source Files/Variables.sh
 source Files/ExitCode.sh
 
 ## Find Primary ETH
-source Files/Find_Internet_IP.sh
+source Files/ethernet.sh
 clear
 
 ## IPV6
