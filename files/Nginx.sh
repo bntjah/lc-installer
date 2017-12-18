@@ -23,7 +23,7 @@ fi
 ## Check if Installed; if not build it
 if [ -ne "/usr/local/nginx/bin/nginx/" ] then
                 ## Download Nginx
-                curl $nginx_url -O  | tar zx>/dev/null
+                curl $nginx_url -O  | tar zxvf>/dev/null
 
                 ## BUILD Nginx
                 cd $curdir/data/nginx-$nginx_version
