@@ -1,5 +1,6 @@
 #!/bin/bash
 curdir=/home/gvw/lc-installer
+source /home/gvw/lc-installer/Files/ethernet.sh
 if [ ! -d "$curdir/files/" ]; then
         echo "Downloading the Config Files from bntjah's GITHUB"
         git clone https://github.com/bntjah/lancache $curdir/files/>/dev/null
@@ -21,7 +22,7 @@ if [[ $TYPE =~ ^[Mm]$ ]]
                         echo "Quiting the install..."
                         exit
                 else
-                        source Files/Multi.sh
+                        source Multi.sh
                 fi
 fi
 
@@ -36,7 +37,7 @@ if [[ $TYPE =~ ^[Ss]$ ]]
                         echo "Quiting the install..."
                         exit
                 else
-                        source Files/Single.sh
+                        source Single.sh
                 fi
 fi
 
@@ -55,3 +56,21 @@ lc_ip_wargaming=$lc_ip_p1.$lc_ip_p2.$lc_ip_p3.$lc_incr_wargaming
 lc_ip_uplay=$lc_ip_p1.$lc_ip_p2.$lc_ip_p3.$lc_incr_uplay
 lc_ip_apple=$lc_ip_p1.$lc_ip_p2.$lc_ip_p3.$lc_incr_apple
 lc_ip_glyph=$lc_ip_p1.$lc_ip_p2.$lc_ip_p3.$lc_incr_glyph
+
+# Display in Console Configured IP's
+echo "Showing Currently Configured IPs:"
+echo
+echo "Steam: $lc_ip_steam"
+echo "Riot: $lc_ip_riot"
+echo "Blizzard: $lc_ip_blizzard"
+echo "Hirez: $lc_ip_hirez"
+echo "Origin: $lc_ip_origin"
+echo "Sony: $lc_ip_sony"
+echo "Microsoft: $lc_ip_microsoft"
+echo "Tera: $lc_ip_tera"
+echo "GOG: $lc_ip_gog"
+echo "Arena: $lc_ip_arena"
+echo "Wargaming: $lc_ip_wargaming"
+echo "Ubisoft: $lc_ip_uplay"
+echo "Apple: $lc_ip_apple"
+echo "Glyph: $lc_ip_glyph"
