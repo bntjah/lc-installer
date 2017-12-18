@@ -3,7 +3,7 @@
 source Files/Root_Check.sh
 
 # Pre Requisites
-source Files/PreReq.sh
+source Files/Prereq.sh
 
 ## Set variables
 source Files/Variables.sh
