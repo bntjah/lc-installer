@@ -21,7 +21,7 @@ if [[ $TYPE =~ ^[Mm]$ ]]
                         echo "Quiting the install..."
                         exit
                 else
-                        source Multi.sh
+                        source Files/Multi.sh
                 fi
 fi
 
@@ -36,7 +36,7 @@ if [[ $TYPE =~ ^[Ss]$ ]]
                         echo "Quiting the install..."
                         exit
                 else
-                        source Single.sh
+                        source Files/Single.sh
                 fi
 fi
 
