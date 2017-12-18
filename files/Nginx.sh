@@ -15,7 +15,7 @@ if [ -z "$2" ]; then
         nginx_url=$2
 fi
 ## Check if Installed; if not build it
-if [ ! -d "/usr/local/sbin/nginx" ]; then
+if [ ! -f "/usr/local/sbin/nginx" ]; then
                 ## Download Nginx
                 if [ ! -d "$nginx_workdir" ]; then
                         mkdir -p "$nginx_workdir"
