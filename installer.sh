@@ -19,6 +19,9 @@ source Files/functions.sh
 
 ## Find Primary ETH
 source Files/Find_Internet_IP.sh
+clear
+
+## IPV6
 echo "###"
 echo "IPV6"
 echo "###"
