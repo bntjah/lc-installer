@@ -3,6 +3,7 @@
 lc_ip=$( ip route get 8.8.8.8 | awk 'NR==1 {print $NF}')
 lc_eth_int=$( ip route get 8.8.8.8 | awk '{print $5}' )
 lc_ip_gw=$( ip route get 8.8.8.8 | awk '{print $3}' )
+lc_hn=$( hostname )
 
 
 ## Dividing the found IP in multiple variables
