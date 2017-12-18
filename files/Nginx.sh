@@ -8,7 +8,7 @@ fi
 
 ## Check if URL for Download is given else using our own
 if [ -z "$2" ] then
-        nginx_url=http://nginx.org/download/nginx-$lc_nginx_version.tar.gz
+        nginx_url=http://nginx.org/download/nginx-$nginx_version.tar.gz
         else
         nginx_url=$2
 fi
