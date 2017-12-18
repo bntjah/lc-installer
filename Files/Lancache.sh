@@ -1,13 +1,7 @@
 #!/bin/bash
 curdir=/home/gvw/lc-installer
 source /home/gvw/lc-installer/Files/ethernet.sh
-if [ ! -d "$curdir/files/" ]; then
-        echo "Downloading the Config Files from bntjah's GITHUB"
-        git clone https://github.com/bntjah/lancache $curdir/files/>/dev/null
-        # exit code check fancy
-fi
 
-echo
 echo "Do you want to use Multi IP or Single IP? [M]ulti/[S]ingle?: "
 read TYPE
 echo
@@ -22,7 +16,7 @@ if [[ $TYPE =~ ^[Mm]$ ]]
                         echo "Quiting the install..."
                         exit
                 else
-                        source Multi.sh
+                        source Files/Multi.sh
                 fi
 fi
 
@@ -37,7 +31,7 @@ if [[ $TYPE =~ ^[Ss]$ ]]
                         echo "Quiting the install..."
                         exit
                 else
-                        source Single.sh
+                        source Files/Single.sh
                 fi
 fi
 
@@ -58,6 +52,7 @@ lc_ip_apple=$lc_ip_p1.$lc_ip_p2.$lc_ip_p3.$lc_incr_apple
 lc_ip_glyph=$lc_ip_p1.$lc_ip_p2.$lc_ip_p3.$lc_incr_glyph
 
 # Display in Console Configured IP's
+echo "##################################"
 echo "Showing Currently Configured IPs:"
 echo
 echo "Steam: $lc_ip_steam"
@@ -74,3 +69,44 @@ echo "Wargaming: $lc_ip_wargaming"
 echo "Ubisoft: $lc_ip_uplay"
 echo "Apple: $lc_ip_apple"
 echo "Glyph: $lc_ip_glyph"
+echo
+echo "Interface: $lc_eth_int"
+echo "Gateway: $lc_ip_gw"
+echo "Subnet: $lc_eth_netmask"
+echo "##################################"
+echo
+echo
+
+if [ ! -d "/srv/lancache" ]; then
+        echo "Creating The Lancache Folders"
+        echo
+        if [ ! -d "/srv/lancache/data" ]; then
+                echo "Creating Data"
+                mkdir -p /srv/lancache/data/
+                # Fancy Exit Code Check
+        fi
+        if [ ! -d "/srv/lancache/logs/Errors" ]; then
+                echo "Creating Logs folder for Errors"
+                mkdir -p /srv/lancache/logs/Errors
+                # Fancy Exit Code Check
+        fi
+        if [ ! -d "/srv/lancache/logs/Keys" ]; then
+                echo "Creating Logs folder for Keys"
+                mkdir -p /srv/lancache/logs/Keys
+                # Fancy Exit Code Check
+        fi
+        if [ ! -d "/srv/lancache/logs/Access" ]; then
+                echo "Creating Logs folder for Access"
+                mkdir -p /srv/lancache/logs/Access
+                # Fancy Exit Code Check
+        fi
+        else
+        echo "It seems as if the Lancache folders already exist... Sweet less work for me"
+fi
+
+if [ -d "/usr/local/nginx" ]; then
+        cp -R $curdir/lancache/conf /usr/local/nginx/
+else
+        echo "Please make sure your NGINX is picking its configs up from /usr/local/nginx/"
+        echo "For this to work; otherwise I can't write the correct configs for it to work..."
+fi
