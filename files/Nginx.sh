@@ -1,11 +1,10 @@
 #!/bin/bash
-source functions.sh
 ## Variables
 nginx_workdir=/usr/portbuild/www/nginx/work
 ## Check if Version is defined Else using our own
 if [ -z "$1" ]; then
-        nginx_version=1.12.1
-        else
+        nginx_version=1.13.7
+else
         nginx_version=$1
 fi
 
@@ -66,12 +65,9 @@ if [ ! -d "/usr/local/nginx/bin/nginx/" ]; then
                         fi
                 fi
 
-                if [ ! -d "$nginx_workdir/nginx-range-cache-0.2" ]; then
-                        echo "Unpacking Multiplay Range Cache Module"
-                        if [ ! -f "$nginx_workdir/multiplay-nginx-range-cache-O.2_GH0.tar.gz" ]; then
-                                wget "https://codeload.github.com/multiplay/nginx-range-cache/tar.gz/0.2?dummy=/multiplay-nginx-range-cache-0.2_GH0.tar.gz" -O "$nginx_workdir/multiplay-nginx-range-cache-0.2_GH0.tar.gz" >/dev/null
-                        fi
-                        tar zxvf "$nginx_workdir/multiplay-nginx-range-cache-0.2_GH0.tar.gz" >/dev/null
+                if [ ! -d "$nginx_workdir/nginx-range-cache" ]; then
+                        echo "Downloading Multiplay Range Cache Module"
+                        git clone https://github.com/multiplay/nginx-range-cache/ $nginx_workdir/nginx-range-cache>/dev/null
                         if [ "$?"=="0" ]; then
                                 echo_success
                         else
@@ -81,7 +77,7 @@ if [ ! -d "/usr/local/nginx/bin/nginx/" ]; then
 
                 cd  $nginx_workdir/nginx-$nginx_version
                 echo "Patching NGINX for Range Cache from Multiplay"
-                patch -p1 <$nginx_workdir/nginx-range-cache-0.2/range_filter.patch >/dev/null
+                patch -p1 <$nginx_workdir/nginx-range-cache/range_filter.patch >/dev/null
                 if [ "$?"=="0" ]; then
                         echo_success
                 else
@@ -89,16 +85,16 @@ if [ ! -d "/usr/local/nginx/bin/nginx/" ]; then
                 fi
 
                 echo "Configuring NGINX with the necessary modules"
-                ./configure  --modules-path=$nginx_workdir --with-cc-opt='-I /usr/local/include' --with-ld-opt='-L /usr/local/lib' --sbin-path=/usr/local/sbin/nginx --pid-path=/var/run/nginx.pid --modules-path=/usr/local/libexec/nginx --with-file-aio --add-module=/usr/portbuild/www/nginx/work/ngx_cache_purge-2.3 --with-http_flv_module --with-http_geoip_module=dynamic --with-http_gzip_static_module --with-http_image_filter_module=dynamic --with-http_mp4_module --add-module=/usr/portbuild/www/nginx/work/nginx-range-cache-0.2 --with-http_realip_module --with-http_slice_module --with-http_stub_status_module --with-pcre --with-http_v2_module --with-stream=dynamic --with-stream_ssl_module --with-stream_ssl_preread_module --with-http_ssl_module --add-module=/usr/portbuild/www/nginx/work/nginx-range-cache-0.2 --add-module=/usr/portbuild/www/nginx/work/ngx_cache_purge-2.3 --add-module=/usr/portbuild/www/nginx/work/nginx-push-stream-module-0.5.1 --with-threads
+                ./configure  --modules-path=$nginx_workdir --with-cc-opt='-I /usr/local/include' --with-ld-opt='-L /usr/local/lib' --sbin-path=/usr/local/sbin/nginx --pid-path=/var/run/nginx.pid --modules-path=/usr/local/libexec/nginx --with-file-aio --add-module=/usr/portbuild/www/nginx/work/ngx_cache_purge-2.3 --with-http_flv_module --with-http_geoip_module=dynamic --with-http_gzip_static_module --with-http_image_filter_module=dynamic --with-http_mp4_module --add-module=/usr/portbuild/www/nginx/work/nginx-range-cache --with-http_realip_module --with-http_slice_module --with-http_stub_status_module --with-pcre --with-http_v2_module --with-stream=dynamic --with-stream_ssl_module --with-stream_ssl_preread_module --with-http_ssl_module --add-module=/usr/portbuild/www/nginx/work/nginx-push-stream-module-0.5.1 --with-threads
                 if [ "$?"=="0" ]; then
                         echo_success
                 else
                         echo_failure
                 fi
                 echo "Making..."
-#               make
+               make
                 echo "Installing..."
-#               make install
+               make install
         else
                 echo "There is already a version of NGINX installed"
 fi
