@@ -1,6 +1,6 @@
 #!/bin/bash
 ## Check if Unbound is installed and if its not installing it
-if [ ! -d "$/etc/unbound" ]; then
+if [ ! -d "/etc/unbound" ]; then
         echo Installing Unbound as its not yet installed
         sudo apt-get install -y unbound>/dev/null
                 if [ "$?"=="0" ]; then
