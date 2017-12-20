@@ -102,8 +102,8 @@ lc_ip_sony=$lc_ip_p1.$lc_ip_p2.$lc_ip_p3.$lc_incr_sony
 lc_incr_microsoft=$((lc_ip_p4+7))
 lc_ip_microsoft=$lc_ip_p1.$lc_ip_p2.$lc_ip_p3.$lc_incr_microsoft
 
-lc_incr_tera=$((lc_ip_p4+8))
-lc_ip_tera=$lc_ip_p1.$lc_ip_p2.$lc_ip_p3.$lc_incr_tera
+lc_incr_enmasse=$((lc_ip_p4+8))
+lc_ip_tera=$lc_ip_p1.$lc_ip_p2.$lc_ip_p3.$lc_incr_enmasse
 
 lc_incr_gog=$((lc_ip_p4+9))
 lc_ip_gog=$lc_ip_p1.$lc_ip_p2.$lc_ip_p3.$lc_incr_gog
@@ -142,7 +142,7 @@ echo Origin: $lc_ip_origin >>$lc_base_folder/logs/$lc_ip_logfile
 echo Riot: $lc_ip_riot >>$lc_base_folder/logs/$lc_ip_logfile
 echo Steam: $lc_ip_steam >>$lc_base_folder/logs/$lc_ip_logfile
 echo Sony: $lc_ip_sony >>$lc_base_folder/logs/$lc_ip_logfile
-echo Tera: $lc_ip_tera >>$lc_base_folder/logs/$lc_ip_logfile
+echo Enmasse: $lc_ip_enmasse >>$lc_base_folder/logs/$lc_ip_logfile
 echo Uplay: $lc_ip_uplay >>$lc_base_folder/logs/$lc_ip_logfile
 echo Wargaming: $lc_ip_wargaming >>$lc_base_folder/logs/$lc_ip_logfile
 
@@ -270,7 +270,7 @@ sed -i 's|lc-host-origin|'$lc_ip_origin'|g' $lc_base_folder/temp/unbound/unbound
 sed -i 's|lc-host-riot|'$lc_ip_riot'|g' $lc_base_folder/temp/unbound/unbound.conf
 sed -i 's|lc-host-steam|'$lc_ip_steam'|g' $lc_base_folder/temp/unbound/unbound.conf
 sed -i 's|lc-host-sony|'$lc_ip_sony'|g' $lc_base_folder/temp/unbound/unbound.conf
-sed -i 's|lc-host-tera|'$lc_ip_tera'|g' $lc_base_folder/temp/unbound/unbound.conf
+sed -i 's|lc-host-enmasse|'$lc_ip_enmasse'|g' $lc_base_folder/temp/unbound/unbound.conf
 sed -i 's|lc-host-wargaming|'$lc_ip_wargaming'|g' $lc_base_folder/temp/unbound/unbound.conf
 sed -i 's|lc-host-uplay|'$lc_ip_uplay'|g' $lc_base_folder/temp/unbound/unbound.conf
 
@@ -294,7 +294,7 @@ sed -i 's|lc-host-origin|'$lc_ip_origin'|g' $lc_base_folder/temp/hosts
 sed -i 's|lc-host-riot|'$lc_ip_riot'|g' $lc_base_folder/temp/hosts
 sed -i 's|lc-host-steam|'$lc_ip_steam'|g' $lc_base_folder/temp/hosts
 sed -i 's|lc-host-sony|'$lc_ip_sony'|g' $lc_base_folder/temp/hosts
-sed -i 's|lc-host-tera|'$lc_ip_tera'|g' $lc_base_folder/temp/hosts
+sed -i 's|lc-host-enmasse|'$lc_ip_enmasse'|g' $lc_base_folder/temp/hosts
 sed -i 's|lc-host-uplay|'$lc_ip_uplay'|g' $lc_base_folder/temp/hosts
 sed -i 's|lc-host-wargaming|'$lc_ip_wargaming'|g' $lc_base_folder/temp/hosts
 
@@ -312,7 +312,7 @@ sed -i 's|lc-host-origin|'$lc_ip_origin'|g' $lc_base_folder/temp/interfaces
 sed -i 's|lc-host-riot|'$lc_ip_riot'|g' $lc_base_folder/temp/interfaces
 sed -i 's|lc-host-steam|'$lc_ip_steam'|g' $lc_base_folder/temp/interfaces
 sed -i 's|lc-host-sony|'$lc_ip_sony'|g' $lc_base_folder/temp/interfaces
-sed -i 's|lc-host-tera|'$lc_ip_tera'|g' $lc_base_folder/temp/interfaces
+sed -i 's|lc-host-enmasse|'$lc_ip_enmasse'|g' $lc_base_folder/temp/interfaces
 sed -i 's|lc-host-uplay|'$lc_ip_uplay'|g' $lc_base_folder/temp/interfaces
 sed -i 's|lc-host-wargaming|'$lc_ip_wargaming'|g' $lc_base_folder/temp/interfaces
 sed -i 's|lc-host-netmask|'$lc_eth_netmask'|g' $lc_base_folder/temp/interfaces
