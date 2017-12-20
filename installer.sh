@@ -153,13 +153,9 @@ echo Sony: $lc_ip_sony >>$lc_base_folder/logs/$lc_ip_logfile
 echo Enmasse: $lc_ip_enmasse >>$lc_base_folder/logs/$lc_ip_logfile
 echo Uplay: $lc_ip_uplay >>$lc_base_folder/logs/$lc_ip_logfile
 echo Wargaming: $lc_ip_wargaming >>$lc_base_folder/logs/$lc_ip_logfile
-
 echo Zenimax: $lc_ip_zenimax >>$lc_base_folder/logs/$lc_ip_logfile
 echo Digitalextremes: $lc_ip_digitalextremes >>$lc_base_folder/logs/$lc_ip_logfile
 echo Pearlabyss: $lc_ip_pearlabyss >>$lc_base_folder/logs/$lc_ip_logfile
-
-
-
 
 ## Check if the Lancache user exists if not creating the user
 if id -u "lancache" >/dev/null 2>&1; then
