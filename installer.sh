@@ -103,7 +103,7 @@ lc_incr_microsoft=$((lc_ip_p4+7))
 lc_ip_microsoft=$lc_ip_p1.$lc_ip_p2.$lc_ip_p3.$lc_incr_microsoft
 
 lc_incr_enmasse=$((lc_ip_p4+8))
-lc_ip_tera=$lc_ip_p1.$lc_ip_p2.$lc_ip_p3.$lc_incr_enmasse
+lc_ip_enmasse=$lc_ip_p1.$lc_ip_p2.$lc_ip_p3.$lc_incr_enmasse
 
 lc_incr_gog=$((lc_ip_p4+9))
 lc_ip_gog=$lc_ip_p1.$lc_ip_p2.$lc_ip_p3.$lc_incr_gog
@@ -169,7 +169,7 @@ sudo mkdir -p $lc_srv_loc/data/riot/
 sudo mkdir -p $lc_srv_loc/data/sony/
 sudo mkdir -p $lc_srv_loc/data/steam/
 sudo mkdir -p $lc_srv_loc/data/wargaming/
-sudo mkdir -p $lc_srv_loc/data/tera/
+sudo mkdir -p $lc_srv_loc/data/enmasse/
 sudo mkdir -p $lc_srv_loc/data/arenanetworks/
 sudo mkdir -p $lc_srv_loc/data/gog/
 sudo mkdir -p $lc_srv_loc/data/uplay
