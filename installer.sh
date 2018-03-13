@@ -25,55 +25,9 @@ sudo mkdir -p $lc_base_folder/temp
 
 sudo chown -R $USER:$USER $lc_base_folder
 
-## Save the MacAdresses if not already done
-lc_list_int=$( ls /sys/class/net | grep -v lo)
-lc_list_mac=$( cat /sys/class/net/*/address | grep -v 00:00:00:00:00:00 )
-echo The MAC Adresses for these interfaces are:
-echo $lc_list_int
-echo $lc_list_mac
-
-echo The MAC Adresses for these Interfaces are:>$lc_base_folder/config/interface_macadresses
-echo $lc_list_int >>$lc_base_folder/config/interface_macadresses
-echo $lc_list_mac >>$lc_base_folder/config/interface_macadresses
-
-## Check if the Interface is defined
-## If not will ask for the question
-if [ ! -f "$lc_base_folder/config/interface_used" ]; then
-	if [ "$lc_base_folder/config/interface_used" ]; then
-		rm -rf $lc_base_folder/config/interface_used
-	fi
-
-	echo Please enter the interface to use:
-	echo The interfaces on this machine are: $lc_list_int
-		read lc_input
-	echo You have entered: $lc_input
-	lc_input_interface=$lc_input
-	echo
-	echo Checking if this interface exists...
-
-	## Built in Check
-	ls /sys/class/net | grep $lc_input_interface >/dev/null
-	if [ $? != 0 ]; then
-		echo [ lc_date ] !!! ERROR !!! >>$lc_base_folder/logs/$lc_ip_logfile
-		echo Sorry you have entered a wrong interface...
-		echo
-		echo The user $USER entered the following interface: $lc_input_interface >>$lc_base_folder/logs/$lc_int_log
-		echo Wich doesnt exist >>$lc_base_folder/logs/$lc_int_log
-		echo
-		echo The available interfaces $USER could choose from: $lc_list_int >>$lc_base_folder/logs/$lc_int_log
-	else
-		echo It seems that $lc_input_interface exists
-		echo
-		echo Now defining the necessary files
-		echo $lc_input_interface >$lc_base_folder/config/interface_used
-		echo >>$lc_base_folder/logs/$lc_int_log
-		echo [ lc_date ] !!! SUCCESS !!! >>$lc_base_folder/logs/$lc_int_log
-		echo The user $USER choose the following interface: $lc_input_interface from $lc_list_int >>$lc_base_folder/logs/$lc_int_log
-	fi
-fi
 ## Divide the ip in variables
-lc_eth_int=$( cat $lc_base_folder/config/interface_used )
-lc_ip=$(echo `sudo ifconfig $lc_eth_int 2>/dev/null|awk '/inet addr:/ {print $2}'|sed 's/addr://'` )
+lc_ip=$( ip route get 8.8.8.8 | awk 'NR==1 {print $NF}')
+lc_eth_int=$( ip route get 8.8.8.8 | awk '{print $5}' )
 lc_eth_netmask=$( sudo ifconfig $lc_eth_int |sed -rn '2s/ .*:(.*)$/\1/p' )
 lc_ip_p1=$(echo ${lc_ip} | tr "." " " | awk '{ print $1 }')
 lc_ip_p2=$(echo ${lc_ip} | tr "." " " | awk '{ print $2 }')
@@ -196,24 +150,93 @@ sudo chown -R lancache:lancache $lc_srv_loc/
 sudo chmod 755 -R $lc_srv_loc/
 fi
 
-## Checking if GIT is installed if not installing it
+## Checking if CURL is installed if not installing it
 if [ ! -f "/usr/bin/curl" ]; then
-	sudo apt-get install curl -y >/dev/null
+        echo "Installing CURL"
+        apt-get install -y curl >/dev/null
+                if [ "$?"=="0" ]; then
+                        echo_success
+                else
+                        echo_failure
+                fi
 fi
+
+## Checking if WGET is installed if not installing it
+if [ ! -f "/usr/bin/wget" ]; then
+        echo "Installing WGET"
+        apt-get install -y wget >/dev/null
+                if [ "$?"=="0" ]; then
+                        echo_success
+                else
+                        echo_failure
+                fi
+fi
+
 
 ## Checking if GIT is installed if not installing it
 if [ ! -f "/usr/bin/git" ]; then
-	sudo apt-get install git -y >/dev/null
-fi
-
-## Check if Unbound is installed and if its not installing it
-if [ ! -d "$lc_unbound_loc" ]; then
-	sudo apt-get install unbound -y>/dev/null
+        echo "Installing GIT"
+        apt-get install -y git >/dev/null
+                if [ "$?"=="0" ]; then
+                        echo_success
+                else
+                        echo_failure
+                fi
 fi
 
 ## Checking Build Essential is installed if not installing it
 if [ ! -f "/usr/bin/make" ]; then
-	sudo apt-get install build-essential -y>/dev/null
+        echo "Installing Build-Essential"
+        apt-get install -y build-essential>/dev/null
+                if [ "$?"=="0" ]; then
+                        echo_success
+                else
+                        echo_failure
+                fi
+fi
+
+## Checking Zlib1G-Dev
+if [ ! -f "/usr/include/zlib.h" ]; then
+        echo "Installing Zlib1G-Dev"
+        apt-get install -y zlib1g-dev>/dev/null
+                if [ "$?"=="0" ]; then
+                        echo_success
+                else
+                        echo_failure
+                fi
+fi
+
+## Checking LibPCRE3
+if [ ! -f "/usr/lib/x86_64-linux-gnu/libpcre32.so " ]; then
+        echo "Installing LibPCRE3-Dev and LibPCRE3"
+        apt-get install -y libpcre3-dev libpcre3>/dev/null
+                if [ "$?"=="0" ]; then
+                        echo_success
+                else
+                        echo_failure
+                fi
+fi
+
+## Checking LibGD
+if [ ! -f "/usr/lib/x86_64-linux-gnu/libgd.so/usr/lib/x86_64-linux-gnu/libgd.so" ]; then
+        echo "Installing LIBGD2-XPM-DEV"
+        apt-get install -y libgd2-xpm-dev>/dev/null
+                if [ "$?"=="0" ]; then
+                        echo_success
+                else
+                        echo_failure
+                fi
+fi
+
+## Checking LibGeoIP
+if [ ! -f "/usr/lib/x86_64-linux-gnu/libGeoIP.so" ]; then
+                echo "Installing LibGeoIP-Dev"
+                apt-get install -y libgeoip-dev>/dev/null
+                if [ "$?"=="0" ]; then
+                        echo_success
+                else
+                        echo_failure
+                fi
 fi
 
 ## Update lancache config folder from github
@@ -222,20 +245,72 @@ git pull --recurse-submodules
 git submodule update --remote --recursive
 
 ## Download and extract nginx if not yet done
-if [ ! -d "$lc_base_folder/data/nginx-".$lc_nginx_version ]; then
-	cd $lc_base_folder/data
-	curl $lc_nginx_url | tar zx>/dev/null
+#!/bin/bash
+## Variables
+nginx_workdir=/usr/portbuild/www/nginx/work
+## Check if Version is defined Else using our own
+if [ -z "$1" ]; then
+        nginx_version=1.13.7
+else
+        nginx_version=$1
 fi
 
-echo "Getting ready to install nginx"
-sleep 3
+## Check if URL for Download is given else using our own
+if [ -z "$2" ]; then
+        nginx_url=http://nginx.org/download/nginx-$nginx_version.tar.gz
+        else
+        nginx_url=$2
+fi
+## Check if Installed; if not build it
+if [ ! -f "/usr/local/sbin/nginx" ]; then
+                ## Download Nginx
+                if [ ! -d "$nginx_workdir" ]; then
+                        mkdir -p "$nginx_workdir"
+                fi
+                cd $nginx_workdir
+                if [ ! -d "$nginx_workdir/nginx-$nginx_version" ]; then
+                        echo "Downloading Nginx from the internet"
+                        wget $nginx_url -O $nginx_workdir/nginx-$nginx_version.tar.gz >/dev/null
 
-## Install nginx
-cd $lc_base_folder/data/nginx-$lc_nginx_version
-sudo apt-get install libpcre3 libpcre3-dev zlib1g-dev libreadline-dev libncurses5-dev libssl-dev -y
-./configure --with-http_sub_module --with-http_slice_module --with-http_ssl_module --with-file-aio --with-threads
-sudo make
-sudo make install
+                        echo "Unpacking the Downloaded File"
+                        tar zxvf $nginx_workdir/nginx-$nginx_version.tar.gz>/dev/null
+                fi
+
+                if [ ! -d "$nginx_workdir/nginx-push-stream-module-0.5.1" ]; then
+                        echo "Unpacking Wandenberg NGNX Push Stream Module"
+                        if [ ! -f "$nginx_workdir/wandenberg-nginx-push-stream-module-0.5.1_GH0.tar.gz" ]; then
+                                wget "https://codeload.github.com/wandenberg/nginx-push-stream-module/tar.gz/0.5.1?dummy=/wandenberg-nginx-push-stream-module-0.5.1_GH0.tar.gz" -O "$nginx_workdir/wandenberg-nginx-push-stream-module-0.5.1_GH0.tar.gz" >/dev/null
+                        fi
+                        tar zxvf "$nginx_workdir/wandenberg-nginx-push-stream-module-0.5.1_GH0.tar.gz" >/dev/null
+                fi
+
+                if [ ! -d "$nginx_workdir/ngx_cache_purge-2.3" ]; then
+                        echo "Unpacking Frickle Labs NGNX Cache Purge Module"
+                        if [ ! -f "$nginx_workdir/ngx_cache_purge-2.3.tar.gz" ]; then
+                                wget "http://labs.frickle.com/files/ngx_cache_purge-2.3.tar.gz" -O "$nginx_workdir/ngx_cache_purge-2.3.tar.gz" >/dev/null
+                        fi
+                        tar zxvf "$nginx_workdir/ngx_cache_purge-2.3.tar.gz" >/dev/null
+                fi
+
+                if [ ! -d "$nginx_workdir/nginx-range-cache" ]; then
+                        echo "Downloading Multiplay Range Cache Module"
+                        git clone https://github.com/multiplay/nginx-range-cache/ $nginx_workdir/nginx-range-cache>/dev/null
+                fi
+
+                cd  $nginx_workdir/nginx-$nginx_version
+                echo "Patching NGINX for Range Cache from Multiplay"
+                patch -p1 <$nginx_workdir/nginx-range-cache/range_filter.patch >/dev/null
+
+
+                echo "Configuring NGINX with the necessary modules"
+                ./configure  --modules-path=$nginx_workdir --with-cc-opt='-I /usr/local/include' --with-ld-opt='-L /usr/local/lib' --conf-path=/usr/local/nginx/nginx.conf --sbin-path=/usr/local/sbin/nginx --pid-path=/var/run/nginx.pid --modules-path=/usr/local/libexec/nginx --with-file-aio --add-module=/usr/portbuild/www/nginx/work/ngx_cache_purge-2.3 --with-http_flv_module --with-http_geoip_module=dynamic --with-http_gzip_static_module --with-http_image_filter_module=dynamic --with-http_mp4_module --add-module=/usr/portbuild/www/nginx/work/nginx-range-cache --with-http_realip_module --with-http_slice_module --with-http_stub_status_module --with-pcre --with-http_v2_module --with-stream=dynamic --with-stream_ssl_module --with-stream_ssl_preread_module --with-http_ssl_module --add-module=/usr/portbuild/www/nginx/work/nginx-push-stream-module-0.5.1 --with-threads >/dev/null
+                echo "Making... Go Grab a coFfee or Redbull..."
+               make >/dev/null
+                echo "Installing..."
+               make install >/dev/null
+        else
+                echo "There is already a version of NGINX installed"
+fi
 
 echo "Getting ready to install sniproxy"
 sleep 3
@@ -378,14 +453,6 @@ sudo sysctl -p /etc/sysctl.d/disable-ipv6.conf
 # Updating local DNS resolvers
 sudo echo "nameserver $lc_ip_googledns1" > /etc/resolv.conf
 sudo echo "nameserver $lc_ip_googledns2" >> /etc/resolv.conf
-
-#if [ -f "/etc/dhcp/dhclient.conf" ]; then
-#	cat /etc/dhcp/dhclient.conf | grep $lc_ip_googledns1>/dev/null
-#	if [ $? != 0 ]; then
-#		sudo mv /etc/dhcp/dhclient.conf /etc/dhcp/dhclient.conf.bak
-#		sudo cp $lc_dl_dir/lancache/dhclient.conf /etc/dhcp/dhclient.conf
-#	fi
-#fi
 
 # Install traffic monitoring tools
 sudo apt-get install nload iftop tcpdump tshark -y
