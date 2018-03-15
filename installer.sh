@@ -201,6 +201,7 @@ fi
 
                 #if [ ! -d "$nginx_workdir/nginx-range-cache" ]; then
                         echo "Downloading Multiplay Range Cache Module"
+			rm -Rf $nginx_workdir/nginx-range-cache
                         git clone https://github.com/multiplay/nginx-range-cache/ $nginx_workdir/nginx-range-cache>/dev/null
                 #fi
 
