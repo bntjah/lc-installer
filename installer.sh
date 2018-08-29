@@ -33,6 +33,7 @@ lc_sniproxy_bin=/usr/local/sbin/sniproxy
 lc_srv_loc=/srv/lancache
 lc_unbound_loc=/etc/unbound
 lc_nginx_url=http://nginx.org/download/nginx-$lc_nginx_version.tar.gz
+lc_tmp_yaml=$lc_base_folder/temp/01-lancache.yaml
 
 
 # Arrays used
