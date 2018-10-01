@@ -56,7 +56,7 @@ fi
 
 # Pre Requisites
 if [ ! "$lc_i_prereq" == "0" ]; then
-        apt install -y libudns0 libudns-dev libev4 libev-dev devscripts automake libtool autoconf autotools-dev cdbs debhelper dh-autoreconf dpkg-dev gettext  pkg-config fakeroot
+        apt install -y libudns0 libudns-dev libev4 libev-dev devscripts automake libtool autoconf autotools-dev cdbs debhelper dh-autoreconf dpkg-dev gettext  pkg-config fakeroot libpcre3-dev libgd-dev libgeoip-dev
 fi
 
 declare -a ip_eth=$( ip link show | grep ens | tr ":" " " | awk '{ print $2 }' )
