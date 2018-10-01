@@ -142,7 +142,7 @@ if [ ! "$lc_d_ucreate" == "0" ]; then
                 echo The user lancache exists so nothing needs to be done!
         else
                 ## Create Lancache user with no home and no login ability
-                adduser --system --no-create-home lancache -s /bin/false
+                adduser -s /usr/bin/nologin -d /srv/lancache -m lancache 
                 # Add the group Lancache
                 addgroup --system lancache
                 # Add lancache user to group lancache
