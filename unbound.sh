@@ -96,5 +96,5 @@ do
             # Add a wildcard config line
             echo "local-zone: \"${LINE}.\" refuse" >> ${UPSTREAM_CONFIG_FILE}
         fi
-    done < /var/git/lancache-cache-domains/$UPSTREAM.blacklist
+    done < /var/git/cache-domains/$UPSTREAM.blacklist
 done
