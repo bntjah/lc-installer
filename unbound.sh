@@ -1,6 +1,8 @@
 #!/bin/bash
 ## Original from https://github.com/zeropingheroes/lancache-dns/blob/master/install.sh#L44
 ## Used as a base so credits to them for this; I just modified the script a bith here and there
+## Where to write the unbound data towards
+unbound_loc=/etc/unbound/upstreams-available
 
 # Exit if there is an error
 set -e
@@ -25,7 +27,7 @@ fi
 
 # If a downloaded version exist move it to the archive folder
 if [ -d "/var/git/lancache-domains"]; then
-	mv 	/var/git/cache-domains /tmp/old-domains/$TIMESTAMP/
+	mv 	/var/git/cache-domains /tmp/old-domains/${TIMESTAMP/}
 fi
 
 # Get domains from `uklans/cache-domains` GitHub repo
@@ -44,7 +46,7 @@ declare -a UPSTREAMS=(arena apple blizzard hirez gog glyph microsoft origin riot
 # Loop through each upstream file in turn
 for UPSTREAM in "${UPSTREAMS[@]}"
 do
-    UPSTREAM_CONFIG_FILE="/etc/unbound/upstreams-available/$UPSTREAM.conf"
+    UPSTREAM_CONFIG_FILE="${unbound_loc}/${UPSTREAM}.conf"
 
     # Add the starting block to the config file
     echo "server:" > ${UPSTREAM_CONFIG_FILE}
@@ -70,14 +72,14 @@ do
         # Add a standard A record config line
         echo "local-data: \"${LINE}. A $LANCACHE_IP\"" >> ${UPSTREAM_CONFIG_FILE}
 		
-    done < /var/git/cache-domains/$UPSTREAM.txt
+    done < /var/git/cache-domains/${UPSTREAM}.txt
 done
 
 ## Blacklist
 for UPSTREAM in "${UPSTREAMS[@]}"
 do
 	if [ -f "/var/git/cache-domains/${UPSTREAM}.blacklist" ]; then
-    UPSTREAM_CONFIG_FILE="/etc/unbound/upstreams-available/${UPSTREAM}.conf"
+    UPSTREAM_CONFIG_FILE="${unbound_loc}/${UPSTREAM}.conf"
 
     # Read the upstream file line by line
     while read -r LINE;
@@ -96,5 +98,5 @@ do
             # Add a wildcard config line
             echo "local-zone: \"${LINE}.\" refuse" >> ${UPSTREAM_CONFIG_FILE}
         fi
-    done < /var/git/cache-domains/$UPSTREAM.blacklist
+    done < /var/git/cache-domains/${UPSTREAM}.blacklist
 done
