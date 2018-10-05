@@ -1,1 +1,258 @@
-# to be filled
+## Steam °|-lc-host-vint:1
+steampowered.com
+client-download.steampowered.com
+content1.steampowered.com
+content2.steampowered.com
+content3.steampowered.com
+content4.steampowered.com
+content5.steampowered.com
+content6.steampowered.com
+content7.steampowered.com
+content8.steampowered.com
+cs.steampowered.com
+clientconfig.akamai.steamtransparent.com
+hsar.steampowered.com.edgesuite.net
+steamcontent.com
+edgecast.steamstatic.com        
+steampipe.akamaized.net
+steam.apac.qtlglb.com
+steam.apac.qtlglb.com.mwcloudcdn.com
+cdn1-sea1.valve.net
+cdn2-sea1.valve.net
+steamcdn-a.akamaihd.net
+media4.steampowered.com
+media2.steampowered.com
+clientconfig.akamai.steamstatic.com
+# Refuse for Comcast CDN Issues
+edge.steam-dns.top.comcast.net." refuse
+edge.steam-dns-2.top.comcast.net." refuse       
+        
+	
+    ## Riot Games °|-lc-host-vint:2
+riotgames.com." transparent
+l3cdn.riotgames.com
+riotgamespatcher-a.akamaihd.net
+riotgamespatcher-a.akamaihd.net.edgesuite.net
+riotgamespatcher-b.akamaihd.net
+riotgamespatcher-b.akamaihd.net.edgesuite.net
+worldwide.l3cdn.riotgames.com
+        
+## Blizzard °|-lc-host-vint:3
+edgesuite.net
+dist.blizzard.com
+llnw.blizzard.com
+level3.blizzard.com
+dist.blizzard.com.edgesuite.net
+blzddist1-a.akamaihd.net
+blzddist2-a.akamaihd.net
+blzddist1-b.akamaihd.net
+blzddist2-b.akamaihd.net
+blzddist3-a.akamaihd.net
+blzddist3-b.akamaihd.net
+blizzard.vo.llnwd.net
+edge.blizzard.top.comcast.net
+edgecast.blizzard.com
+nydus.battle.net
+cdn.blizzard.com
+llnw.eu.blizzard.com
+llnw.us.blizzard.com
+blzddistkr1-a.akamaihd.net
+blizzard.nefficient.co.kr
+
+## Hirez °|-lc-host-vint:4
+hirez.http.internapcdn.net
+discovery.hirez.net
+lwcdn.hi-rezgame.net
+cdn.hi-rez.com
+cdn2hi-rezgame.akamaized.net
+hirez.vo.llnwd.net
+cds.q6u4m8x5.hwcdn.net
+cf-cdn.hirez.net
+ad753f1968.site.internapcdn.net
+cdce.sin002.internap.com
+        
+## Origin °|-lc-host-vint:5
+ea.com." transparent
+akamai.cdn.ea.com
+download.origin.com
+origin-a.akamaihd.net
+lvlt.cdn.ea.com
+origin-b.akamaihd.net
+river.data.ea.com
+        
+## Sony °|-lc-host-vint:6
+pls.patch.station.sony.com
+playstation.net." transparent
+gs2.ww.prod.dl.playstation.net
+gs2.sonycoment.loris-e.llnwd.net
+            
+## Microsoft Windows Updates °|-lc-host-vint:7
+download.microsoft.com
+update.microsoft.com.akadns.net
+update.microsoft.com.nsatc.net
+windowsupdate.com
+update.microsoft.com
+windowsupdate.microsoft.com
+msxbassets.loris.llnwd.net
+hwcdn.net
+assets1.xboxlive.com
+assets2.xboxlive.com
+xboxone.loris.llnwd.net
+xboxone.vo.llnwd.net
+images-eds.xboxlive.com
+xbox-mbr.xboxlive.com
+assets1.xboxlive.com.nsatc.net
+fullproduct.download.microsoft.com
+dlassets.xboxlive.com
+tlu.dl.delivery.mp.microsoft.com
+officecdn.microsoft.com.edgesuite.net
+lcy.llnw.net
+lon.llnw.net
+download.xbox.com
+bg.v4.a.dl.ws.microsoft.com
+	
+	    
+## Tera °|-lc-host-vint:8
+patch.tera.enmasse-game.com
+patch.closers.enmasse-game.com
+download.enmasse.com
+
+## GOG °|-lc-host-vint:9
+cdn.gog.com
+wpc.11df.deltacdn.net
+11df-eu-lb.wpc.edgecastcdn.net
+11df-eu-lb.apr-11df.edgecastdns.net
+        
+## Arena networks °|-lc-host-vint:10
+assetcdn.101.arenanetworks.com
+assetcdn.102.arenanetworks.com
+assetcdn.103.arenanetworks.com
+live.patcher.bladeandsoul.com
+
+## Wargaming °|-lc-host-vint:11
+wargaming.net." transparent
+wg.gcdn.co
+wargaming.net.edgesuite.net
+wgusst-na.wargaming.net
+wgusst-eu.wargaming.net
+update-v4r4h10x.worldofwarships.com
+static-sguscs.worldofwarships.com
+dl2.wargaming.net
+dl-wows-ak.wargaming.net
+dl-wows-cdx.wargaming.net
+dl-wows-gc.wargaming.net
+dl-wot-cdx.wargaming.net
+dl-wot-gc.wargaming.net
+dl-wowp-cdx.wargaming.net
+dl-wowp-gc.wargaming.net
+wguswgc-na.wargaming.net
+wguscs-wotcom.wargaming.net
+wguscs-twaeu.wargaming.net
+dl-twa-gc.wargaming.net
+
+## Blackhole Wargaming Torrent hosts
+dht.transmissionbt.com." refuse
+router.utorrent.com." refuse
+router.bitcomet.com." refuse
+dht.aelitis.com." refuse
+torrents.worldoftanks.ru." refuse
+    
+## Uplay °|-lc-host-vint:12
+cdn.ubi.com
+        
+## OSX Updates °|-lc-host-vint:13
+mzstatic.com
+swcdn.apple.com
+itunes-apple.com
+swscan.apple.com
+osxapps.itunes.apple.com
+swdownload.apple.com
+aaplimg.com
+iosapps.itunes.apple.com
+albert.apple.com
+deimos3.apple.com
+mesu.apple.com
+skl.apple.com
+appldnld.apple.com
+gs.apple.com
+
+## Glyph °|-lc-host-vint:14
+aa-update.dyn.triongames.com
+        
+## ZeniMax °|-lc-host-vint:15
+patcher.elderscrollsonline.com
+
+## digitalextremes °|-lc-host-vint:16
+content.warframe.com
+        
+## pearlabyss °|-lc-host-vint:17
+akamai-gamecdn.blackdesertonline.com
+dn.sea.playblackdesert.com
+dn.sea.playblackdesert.com.edgesuite.net
+
+
+# pearlabyss °|-lc-host-vint:17
+gaijin.s-1.clients.cdnnow.ru
+gaijin.s-2.clients.cdnnow.ru
+gaijin.s-3.clients.cdnnow.ru
+gaijin.s-4.clients.cdnnow.ru
+gaijin.s-5.clients.cdnnow.ru
+gaijin.s-6.clients.cdnnow.ru
+gaijin.s-7.clients.cdnnow.ru
+gaijin.s-8.clients.cdnnow.ru
+gaijin.s-9.clients.cdnnow.ru
+gaijin.s-10.clients.cdnnow.ru
+gaijin.s-11.clients.cdnnow.ru
+gaijin.s-12.clients.cdnnow.ru
+gaijin.s-13.clients.cdnnow.ru
+gaijin.s-14.clients.cdnnow.ru
+gaijin.s-15.clients.cdnnow.ru
+gaijin.s-16.clients.cdnnow.ru
+gaijin.s-17.clients.cdnnow.ru
+gaijin.s-18.clients.cdnnow.ru
+gaijin.s-19.clients.cdnnow.ru
+gaijin.s-20.clients.cdnnow.ru
+gaijin.s-21.clients.cdnnow.ru
+gaijin.s-22.clients.cdnnow.ru
+gaijin.s-23.clients.cdnnow.ru
+gaijin.s-24.clients.cdnnow.ru
+gaijin.s-25.clients.cdnnow.ru
+gaijin.s-26.clients.cdnnow.ru
+gaijin.s-27.clients.cdnnow.ru
+gaijin.s-28.clients.cdnnow.ru
+gaijin.s-29.clients.cdnnow.ru
+gaijin.s-30.clients.cdnnow.ru
+gaijin.s-31.clients.cdnnow.ru
+gaijin.s-32.clients.cdnnow.ru
+gaijin.s-33.clients.cdnnow.ru
+gaijin.s-34.clients.cdnnow.ru
+gaijin.s-35.clients.cdnnow.ru
+gaijin.s-36.clients.cdnnow.ru
+gaijin.s-37.clients.cdnnow.ru
+gaijin.s-38.clients.cdnnow.ru
+gaijin.s-39.clients.cdnnow.ru
+gaijin.s-40.clients.cdnnow.ru
+gaijin.i-1.cdnnow.ru
+gaijin.i-1-1.cdnnow.ru
+gaijin.i-1-2.cdnnow.ru
+gaijin.i-1-3.cdnnow.ru
+gaijin.i-1-4.cdnnow.ru
+seed-uk-01.gaijinent.com
+seed-uk-02.gaijinent.com
+seed-us-01.gaijinent.com
+seed-us-02.gaijinent.com
+seed-ru-kr-01.gaijinent.com
+seed-ru-msk-03.gaijinent.com
+seed-ru-spb-01.gaijinent.com
+seed-ru-spb-02.gaijinent.com
+seed-ru-spb-03.gaijinent.com
+1266898732.rsc.cdn77.org
+aws-yup1.gaijinent.com
+d1kuaoknpmn4al.cloudfront.net
+aws-yup2.gaijinent.com
+d1wh109zeiuhe7.cloudfront.net
+aws-yup3.gaijinent.com
+d1kuaoknpmn4al.cloudfront.net
+aws-yup4.gaijinent.com
+d1wh109zeiuhe7.cloudfront.net
+game-client-amz-cdn.warthunder.com
