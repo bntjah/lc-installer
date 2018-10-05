@@ -1,0 +1,4 @@
+## Tera
+patch.tera.enmasse-game.com
+patch.closers.enmasse-game.com
+download.enmasse.com
