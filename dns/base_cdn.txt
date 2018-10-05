@@ -4,23 +4,9 @@ edge.steam-dns.top.comcast.net." refuse
 edge.steam-dns-2.top.comcast.net." refuse       
         
 	    
-## Tera °|-lc-host-vint:8
-patch.tera.enmasse-game.com
-patch.closers.enmasse-game.com
-download.enmasse.com
-
 ## Blackhole Wargaming Torrent hosts
 dht.transmissionbt.com." refuse
 router.utorrent.com." refuse
 router.bitcomet.com." refuse
 dht.aelitis.com." refuse
 torrents.worldoftanks.ru." refuse
-
-## Glyph °|-lc-host-vint:14
-aa-update.dyn.triongames.com
-        
-## ZeniMax °|-lc-host-vint:15
-patcher.elderscrollsonline.com
-
-## digitalextremes °|-lc-host-vint:16
-content.warframe.com
