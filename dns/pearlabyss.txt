@@ -1,4 +1,4 @@
-# pearlabyss °|-lc-host-vint:17
+# pearlabyss
 gaijin.s-1.clients.cdnnow.ru
 gaijin.s-2.clients.cdnnow.ru
 gaijin.s-3.clients.cdnnow.ru
