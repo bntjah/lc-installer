@@ -77,7 +77,8 @@ do
     done < /var/git/cache-domains/${UPSTREAM}.txt
 done
 
-## Blacklist
+## The Following is for blacklisting CDN's we noticed
+## That need to be blacklisted
 for UPSTREAM in "${UPSTREAMS[@]}"
 do
 	if [ -f "/var/git/cache-domains/${UPSTREAM}.blacklist" ]; then
