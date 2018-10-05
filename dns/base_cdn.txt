@@ -9,12 +9,6 @@ patch.tera.enmasse-game.com
 patch.closers.enmasse-game.com
 download.enmasse.com
 
-## GOG °|-lc-host-vint:9
-cdn.gog.com
-wpc.11df.deltacdn.net
-11df-eu-lb.wpc.edgecastcdn.net
-11df-eu-lb.apr-11df.edgecastdns.net
-
 ## Blackhole Wargaming Torrent hosts
 dht.transmissionbt.com." refuse
 router.utorrent.com." refuse
@@ -30,10 +24,3 @@ patcher.elderscrollsonline.com
 
 ## digitalextremes °|-lc-host-vint:16
 content.warframe.com
-        
-## pearlabyss °|-lc-host-vint:17
-akamai-gamecdn.blackdesertonline.com
-dn.sea.playblackdesert.com
-dn.sea.playblackdesert.com.edgesuite.net
-
-
