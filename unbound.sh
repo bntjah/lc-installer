@@ -70,7 +70,7 @@ do
         fi
 
         # Add a standard A record config line
-        echo "local-data: \"${LINE}. A $LANCACHE_IP\"" >> ${UPSTREAM_CONFIG_FILE}
+        echo "local-data: \"${LINE}. A $lc-host-${UPSTREAM}\"" >> ${UPSTREAM_CONFIG_FILE}
 		
     done < /var/git/cache-domains/${UPSTREAM}.txt
 done
