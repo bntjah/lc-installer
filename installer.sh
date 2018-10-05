@@ -119,6 +119,27 @@ if [ ! -f "$lc_tmp_ip" ]; then
                 echo Sorry Something went wrong as the file $lc_tmp_ip already exists!
 fi
 
+# This Changes the Unbound File with the correct IP Adresses for lc-host-ip
+sed -i 's|lc-host-ip|'$lc_network'|g' $lc_tmp_unbound
+
+# This Corrects the Host File For The Netplan with gateway
+sed -i 's|lc-host-gateway|'$lc_gateway'|g' $lc_tmp_yaml
+
+# This Corrects the Host File For The Netplan with primary network
+sed -i 's|lc-host-network|'$lc_network'/'$lc_ip_sn'|g' $lc_tmp_yaml
+
+# This Corrects the Host File For The Netplan with interface name
+sed -i 's|lc-host-vint|'$if_name'|g' $lc_tmp_yaml
+
+# This Corrects the loopback to bind to primary IP Address
+sed -i 's|127.0.0.1|'$lc_network'|g' $lc_netdata
+
+# This corrects the hostname pointing to the loopback
+sed -i "s|lc-hostname|$lc_hostname|g" $lc_tmp_hosts
+
+# This corrects lc-host-proxybind with the correct IP
+sed -i "s|lc-host-proxybind|$lc_network|g" $lc_tmp_hosts
+
 for logfolder in ${lc_logfolders[@]}; do
         # Check if the folder exists if not creates it
         if [ ! -d "$lc_base_folder/$folder" ]; then
@@ -241,19 +262,50 @@ fi
 
 ### Change limits
 if [ -f "$lc_dl_dir/lancache/limits.conf" ]; then
-        sudo mv /etc/security/limits.conf /etc/security/limits.conf.bak
-        sudo cp $lc_dl_dir/lancache/limits.conf /etc/security/limits.conf
+  # Need to get the limits into the /etc/security/limits.conf  * soft nofile  65536 * hard nofile  65536
+  echo "Setting security limits..."
+  mv /etc/security/limits.conf /etc/security/limits.conf.$TIMESTAMP.bak
+  echo '* soft nofile  65536' >> /etc/security/limits.conf
+  echo '* hard nofile  65536' >> /etc/security/limits.conf
 fi
 
-## Doing the necessary changes for Lancache
-mv $lc_nginx_loc/conf/nginx.conf $lc_nginx_loc/conf/nginx.conf.bak
-cp $lc_dl_dir/lancache/conf/nginx.conf $lc_nginx_loc/conf/nginx.conf
-mkdir -p $lc_nginx_loc/conf/lancache
-mkdir -p $lc_nginx_loc/conf/vhosts-enabled/
-cp $lc_dl_dir/lancache/conf/lancache/* $lc_nginx_loc/conf/lancache
-cp $lc_dl_dir/lancache/conf/vhosts-enabled/*.conf $lc_nginx_loc/conf/vhosts-enabled/
+# Setting the directory path for lancache
+echo "Configuring lancache directory structure in nginx..."
+sed -i "s|lc-srv-loc|$lc_srv_loc|g" $lc_base_folder/etc/nginx/sites-available/*.conf
+sed -i "s|lc-srv-loc|$lc_srv_loc|g" $lc_base_folder/etc/nginx/lancache/caches
 
-### To Do Still
-### Change the proxy bind
-### Systemd Scripts for everything
-### ... and stuff I forgot ...
+# Setting the max_size limit for eache cache
+echo "Configuring proxy cache size..."
+sed -i "s|lc-max-size|$lc_max_size|g" $lc_base_folder/etc/nginx/lancache/caches
+
+# Setting specified DNS Servers
+echo "Setting specified DNS Servers..."
+sed -i "s|lc-dns1|$lc_dns1|g" $lc_base_folder/etc/nginx/nginx.conf
+sed -i "s|lc-dns2|$lc_dns2|g" $lc_base_folder/etc/nginx/nginx.conf
+sed -i "s|lc-dns1|$lc_dns1|g" $lc_base_folder/etc/nginx/lancache/resolver
+sed -i "s|lc-dns2|$lc_dns2|g" $lc_base_folder/etc/nginx/lancache/resolver
+sed -i "s|lc-dns1|$lc_dns1|g" $lc_tmp_yaml
+sed -i "s|lc-dns2|$lc_dns2|g" $lc_tmp_yaml
+sed -i "s|lc-dns1|$lc_dns1|g" $lc_tmp_unbound
+sed -i "s|lc-dns2|$lc_dns2|g" $lc_tmp_unbound
+sed -i "s|lc-dns1|$lc_dns1|g" $lc_base_folder/etc/sniproxy.conf
+
+# Change the Proxy Bind in Lancache Configs
+echo "Setting Proxy Bind address in lancache configs..."
+sed -i 's|lc-host-proxybind|'$lc_network'|g' $lc_base_folder/etc/nginx/sites-available/*.conf
+
+# Moving nginx configs
+echo "Configuring nginx..."
+mv $lc_nginx_loc/nginx.conf $lc_nginx_loc/nginx.conf.$TIMESTAMP.bak
+cp $lc_base_folder/etc/nginx/nginx.conf $lc_nginx_loc/nginx.conf
+#mkdir -p $lc_nginx_loc/conf/lancache
+cp -rfv $lc_base_folder/etc/nginx/lancache $lc_nginx_loc
+cp $lc_base_folder/etc/nginx/sites-available/*.conf $lc_nginx_loc/sites-available/
+
+# Move hosts and network interface values into place.
+echo "Configuring network interfaces and hosts file..."
+mv /etc/netplan/01-netcfg.yaml /etc/netplan/01-netcfg.yaml.$TIMESTAMP.bak
+cp $lc_base_folder/etc/netplan/01-netcfg.yaml /etc/netplan/01-netcfg.yaml
+mv /etc/hosts /etc/hosts.$TIMESTAMP.bak
+cp $lc_base_folder/etc/hosts /etc/hosts
+
