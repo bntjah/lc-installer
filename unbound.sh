@@ -16,8 +16,8 @@ if [ $EUID != 0 ]; then
 fi
 
 # Prepare the upstreams config directory
-if [ ! -d "/etc/unbound/upstreams-available" ]; then
-	mkdir -p /etc/unbound/upstreams-available
+if [ ! -d "${unbound_loc}" ]; then
+	mkdir -p ${unbound_loc}
 fi
 
 # Create Archive Folder
