@@ -1,6 +1,8 @@
 #!/bin/bash
-## Original from https://github.com/zeropingheroes/lancache-dns/blob/master/install.sh#L44
-## Used as a base so credits to them for this; I just modified the script a bith here and there
+## The Original Code can be found @ https://github.com/zeropingheroes/lancache-dns/blob/master/install.sh#L44
+## Used as a base so credits to them for this; I just modified the script a bith here and there as you can see below
+## So all credits go to them for the work!
+
 ## Where to write the unbound data towards
 unbound_loc=/etc/unbound/upstreams-available
 
