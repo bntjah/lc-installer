@@ -63,3 +63,6 @@ d1kuaoknpmn4al.cloudfront.net
 aws-yup4.gaijinent.com
 d1wh109zeiuhe7.cloudfront.net
 game-client-amz-cdn.warthunder.com
+akamai-gamecdn.blackdesertonline.com
+dn.sea.playblackdesert.com
+dn.sea.playblackdesert.com.edgesuite.net
