@@ -1,3 +1,7 @@
+## Important note
+## Most of the stuff here isnt upt to date any more
+## I suggest you take a look over @ https://github.com/nexusofdoom/lancache-installer
+
 lancache installer script
 =========================
 
