@@ -59,14 +59,13 @@ do
 
         # Check if hostname is a wildcard
         if [[ $LINE == *"*"* ]]; then
-
             # Remove the asterix and the dot from the start of the hostname
             LINE=${LINE/#\*./}
-
-            # Add a wildcard config line
-            echo "local-zone: \"${LINE}.\" redirect" >> ${UPSTREAM_CONFIG_FILE}
         fi
 
+        # Add a wildcard config line
+        echo "local-zone: \"${LINE}.\" redirect" >> ${UPSTREAM_CONFIG_FILE}
+        
         # Add a standard A record config line
         echo "local-data: \"${LINE}. A lc-host-${UPSTREAM}\"" >> ${UPSTREAM_CONFIG_FILE}
 
