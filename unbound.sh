@@ -19,12 +19,12 @@ fi
 
 # Prepare the upstreams config directory
 if [ ! -d "${unbound_loc}" ]; then
-	mkdir -p ${unbound_loc}
+        mkdir -p ${unbound_loc}
 fi
 
 # Delete Any Currently stored DNS Txt files
-if [  -d "/var/git/*" ]; then
-	rm -rf /var/git/*
+if [  -d "/var/git/" ]; then
+        rm -rf /var/git/
 fi
 
 
@@ -35,7 +35,8 @@ fi
 
 # Move the extra DNS from our Github into Cache-Domains folder
 if [ -d "/var/git/bntjah-installer/dns/" ]; then
-	mv /var/git/bntjah-installer/dns/* /var/git/cache-domains/
+        mv /var/git/bntjah-installer/dns/* /var/git/cache-domains/
+        rm -rf /var/git/bntjah-installer/
 fi
 
 # Set the upstreams we want to create unbound config files from
@@ -65,36 +66,33 @@ do
 
         # Add a wildcard config line
         echo "local-zone: \"${LINE}.\" redirect" >> ${UPSTREAM_CONFIG_FILE}
-        
+
         # Add a standard A record config line
         echo "local-data: \"${LINE}. A lc-host-${UPSTREAM}\"" >> ${UPSTREAM_CONFIG_FILE}
 
     done < /var/git/cache-domains/${UPSTREAM}.txt
 done
 
-## The Following is for blacklisting CDN's we noticed
-## That need to be blacklisted
+# Loop through each upstream file in turn
 for UPSTREAM in "${UPSTREAMS[@]}"
 do
-	if [ -f "/var/git/cache-domains/${UPSTREAM}.blacklist" ]; then
-    UPSTREAM_CONFIG_FILE="${unbound_loc}/${UPSTREAM}.conf"
+if [ -f /var/git/cache-domains/${UPSTREAM}.blacklist ]; then
+            UPSTREAM_CONFIG_FILE="${unbound_loc}/${UPSTREAM}.conf"
+            # Read the upstream file line by line
+            while read -r LINE;
+            do
+                # Skip line if it is a comment
+                if [[ ${LINE:0:1} == '#' ]]; then
+                    continue
+                fi
+                # Check if hostname is a wildcard
+                if [[ $LINE == *"*"* ]]; then
+                    # Remove the asterix and the dot from the start of the hostname
+                    LINE=${LINE/#\*./}
+                fi
 
-    # Read the upstream file line by line
-    while read -r LINE;
-    do
-        # Skip line if it is a comment
-        if [[ ${LINE:0:1} == '#' ]]; then
-            continue
-        fi
-
-        # Check if hostname is a wildcard
-        if [[ $LINE == *"*"* ]]; then
-
-            # Remove the asterix and the dot from the start of the hostname
-            LINE=${LINE/#\*./}
-        fi
-        # Add a wildcard config line
-        echo "local-zone: \"${LINE}.\" refuse" >> ${UPSTREAM_CONFIG_FILE}
-        
-    done < /var/git/cache-domains/${UPSTREAM}.blacklist
+                # Add a wildcard config line
+                echo "local-zone: \"${LINE}.\" refuse" >> ${UPSTREAM_CONFIG_FILE}
+            done < /var/git/cache-domains/${UPSTREAM}.blacklist
+fi
 done
