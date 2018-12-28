@@ -22,28 +22,24 @@ if [ ! -d "${unbound_loc}" ]; then
 	mkdir -p ${unbound_loc}
 fi
 
-# Create Archive Folder
-if [ ! -d "/tmp/old-cache-domains/" ]; then
-	mkdir -p /tmp/old-cache-domains/
+# Delete Any Currently stored DNS Txt files
+if [  -d "/var/git/*" ]; then
+	rm -rf /var/git/*
 fi
 
-# If a downloaded version exist move it to the archive folder
-if [ -d "/var/git/lancache-domains"]; then
-	mv 	/var/git/cache-domains /tmp/old-domains/${TIMESTAMP/}
-fi
 
 # Get domains from `uklans/cache-domains` GitHub repo
 /usr/bin/git clone https://github.com/uklans/cache-domains.git /var/git/cache-domains/
-# Download the extra upstreams from our github
+# Download the extra upstreams from our own github
 /usr/bin/git clone -b rewrite https://github.com/bntjah/lc-installer /var/git/bntjah-installer/
 
 # Move the extra DNS from our Github into Cache-Domains folder
-if [ -d "/var/git/bntjah-installer/dns/"]; then
+if [ -d "/var/git/bntjah-installer/dns/" ]; then
 	mv /var/git/bntjah-installer/dns/* /var/git/cache-domains/
 fi
 
 # Set the upstreams we want to create unbound config files from
-declare -a UPSTREAMS=(arena apple blizzard hirez gog glyph microsoft origin riot steam sony enmasse wargaming uplay zenimax digitalextremes pearlabyss)
+declare -a UPSTREAMS=(arenanet apple blizzard hirez gog glyph windowsupdates origin riot steam sony tera wargaming.net uplay zenimax digitalextremes pearlabyss xboxlive rockstar)
 
 # Loop through each upstream file in turn
 for UPSTREAM in "${UPSTREAMS[@]}"
@@ -72,8 +68,8 @@ do
         fi
 
         # Add a standard A record config line
-        echo "local-data: \"${LINE}. A $lc-host-${UPSTREAM}\"" >> ${UPSTREAM_CONFIG_FILE}
-		
+        echo "local-data: \"${LINE}. A lc-host-${UPSTREAM}\"" >> ${UPSTREAM_CONFIG_FILE}
+
     done < /var/git/cache-domains/${UPSTREAM}.txt
 done
 
