@@ -92,9 +92,9 @@ do
 
             # Remove the asterix and the dot from the start of the hostname
             LINE=${LINE/#\*./}
-
-            # Add a wildcard config line
-            echo "local-zone: \"${LINE}.\" refuse" >> ${UPSTREAM_CONFIG_FILE}
         fi
+        # Add a wildcard config line
+        echo "local-zone: \"${LINE}.\" refuse" >> ${UPSTREAM_CONFIG_FILE}
+        
     done < /var/git/cache-domains/${UPSTREAM}.blacklist
 done
