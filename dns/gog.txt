@@ -1,4 +1,4 @@
-#GOG
+## GOG
 cdn.gog.com
 wpc.11df.deltacdn.net
 11df-eu-lb.wpc.edgecastcdn.net
